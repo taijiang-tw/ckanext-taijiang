@@ -1,0 +1,98 @@
+{% ckan_extends %}
+
+{% if pkg_dict.get('extras', [])|length %}
+  {% set extras_dict = h.extras_to_dict(pkg_dict) %}
+{% else %}
+  {% set extras_dict = pkg_dict %}
+{% endif %}
+
+{% block package_additional_info %}
+        {% if extras_dict.get('identifier') %}
+          <tr>
+             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("identifier") }}</th>
+             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('identifier') }}</td>
+          </tr>
+        {% endif %}
+
+        {% if extras_dict.get('language') %}
+          <tr>
+	     <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Language") }}</th>
+	    {% for value, label in h.get_languages() %}
+	      {% if extras_dict.get('language') == value %} 
+	        <td class="dataset-details" property="rdf:value">{{ label }}</td>
+	      {% endif %}
+	    {% endfor %}
+          </tr>
+        {% endif %}
+
+        {% if extras_dict.get('encoding') %}
+          <tr>
+             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Encoding") }}</th>
+            {% for value, label in h.get_encodings() %}
+              {% if extras_dict.get('encoding') == value %}
+                <td class="dataset-details" property="rdf:value">{{ label }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endif %}
+
+        {% if pkg_dict.url %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _('Source') }}</th>
+            <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
+          </tr>
+        {% endif %}
+
+        {% if pkg_dict.author_email %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+            <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</td>
+          </tr>
+        {% elif pkg_dict.author %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+            <td class="dataset-details" property="dc:creator">{{ pkg_dict.author }}</td>
+          </tr>
+        {% endif %}
+
+        {% if extras_dict.get('author_phone') %}
+	  <tr>
+	     <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Athour Phone") }}</th>
+	     <td class="dataset-details" property="rdf:value">{{ extras_dict.get('author_phone') }}</td>
+	  </tr>
+        {% endif %}
+
+        {% if pkg_dict.maintainer_email %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+            <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
+          </tr>
+        {% elif pkg_dict.maintainer %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+	    <td class="dataset-details" property="dc:contributor">{{ pkg_dict.maintainer }}</td>
+          </tr>
+        {% endif %}
+
+        {% if extras_dict.get('maintainer_phone') %}
+          <tr "dc:relation">
+             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Maintainer Phone") }}</th>
+             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('maintainer_phone') }}</td>
+          </tr>
+        {% endif %}
+
+        {% if pkg_dict.version %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("Version") }}</th>
+            <td class="dataset-details">{{ pkg_dict.version }}</td>
+          </tr>
+        {% endif %}
+
+        {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("State") }}</th>
+            <td class="dataset-details">{{ pkg_dict.state }}</td>
+          </tr>
+        {% endif %}
+
+      {% endblock %}
