@@ -19,64 +19,13 @@
   {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-dataset'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
 {% endblock %}
 
-{% block package_basic_fields_custom %}
-  {{ form.input('identifier', id='field-identifier', label=_('Identifier'), value=extras_dict.get('identifier'), error=errors.identifier, classes=['control-full']) }}
-  {% snippet 'snippets/language_list.html', data=extras_dict, errors=errors, field_name='language' %}
-  {% snippet 'snippets/encoding_list.html', data=extras_dict, errors=errors, field_name='encoding' %}
-  {% snippet 'snippets/theme_keyword_1.html', data=extras_dict, errors=errors, field_name='theme_keyword_1' %}
-  {% snippet 'snippets/theme_keyword_2.html', data=extras_dict, errors=errors, field_name='theme_keyword_2' %}
-  {% snippet 'snippets/theme_keyword_3.html', data=extras_dict, errors=errors, field_name='theme_keyword_3' %}
-  {% snippet 'snippets/theme_keyword_4.html', data=extras_dict, errors=errors, field_name='theme_keyword_4' %}
-  {% snippet 'snippets/theme_keyword_5.html', data=extras_dict, errors=errors, field_name='theme_keyword_5' %}
-  {% snippet 'snippets/temp_res_list.html', data=extras_dict, errors=errors, field_name='temp_res' %}
-
-  <div class="control-group">
-    <span class="info-block info-inline">
-      <i class="icon-info-sign"></i>
-      {% trans %}Acceptable formats: 'YYYY-MM-DD'.{% endtrans %}
-    </span>
-   {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=extras_dict.get('start_time'), error=errors.start_time) }}
-  </div>
-
-  <div class="control-group">
-    <span class="info-block info-inline">
-      <i class="icon-info-sign"></i>
-      {% trans %}Acceptable formats: 'YYYY-MM-DD'.{% endtrans %}
-    </span>
-   {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=extras_dict.get('end_time'), error=errors.end_time) }}
-  </div>
-
-{% endblock %}
-
 {% block package_basic_fields_description %}
   {{ form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes) }}
 {% endblock %}
 
-{% block package_basic_fields_tags %}
-  {% set tag_attrs = {'data-module': 'autocomplete', 'data-module-tags': '', 'data-module-source': '/api/2/util/tag/autocomplete?incomplete=?'} %}
-  {{ form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs) }}
-{% endblock %}
-
-{% block package_basic_fields_license %}
-<div class="control-group">
-  {% set error = errors.license_id %}
-  <label class="control-label" for="field-license">{{ _("License") }}</label>
-  <div class="controls">
-    <select id="field-license" name="license_id" data-module="autocomplete">
-      {% for license_desc, license_id in licenses|sort if license_desc  %}
-        <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ license_desc }}</option>
-      {% endfor %}
-    </select>
-    {% if error %}<span class="error-block">{{ error }}</span>{% endif %}
-    <span class="info-block info-inline">
-      <i class="icon-info-sign"></i>
-      {% trans %}
-        License definitions and additional information can be found
-        at <a href="http://opendefinition.org/licenses/">opendefinition.org</a>
-      {% endtrans %}
-    </span>
-  </div>
-</div>
+{% block package_basic_fields_custom %}
+  {{ form.input('identifier', id='field-identifier', label=_('Identifier'), value=extras_dict.get('identifier'), error=errors.identifier, classes=['control-medium']) }}
+  {% snippet 'snippets/data_type_list.html', data=extras_dict, errors=errors, field_name='data_type' %}
 {% endblock %}
 
 {% block package_basic_fields_org %}
@@ -134,7 +83,6 @@
     </div>
   {% endif %}
 
-
   {% if data.id and h.check_access('package_delete', {'id': data.id}) and data.state != 'active' %}
     <div class="control-group">
       <label for="field-state" class="control-label">{{ _('State') }}</label>
@@ -148,3 +96,81 @@
   {% endif %}
 
 {% endblock %}
+
+{% block package_temporal_fields %}
+  <legend><h2> {{ _('Temporal Information') }} </h2></legend>
+  {% snippet 'snippets/temp_res_list.html', data=extras_dict, errors=errors, field_name='temp_res' %}
+
+  <div class="control-group">
+    <span class="info-block info-inline">
+      <i class="icon-info-sign"></i>
+      {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
+    </span>
+    {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=extras_dict.get('start_time'), error=errors.start_time, is_required=true) }}
+  </div>
+
+  <div class="control-group">
+    <span class="info-block info-inline">
+      <i class="icon-info-sign"></i>
+      {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
+    </span>
+    {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=extras_dict.get('end_time'), error=errors.end_time, is_required=true) }}
+  </div>
+{% endblock %}
+
+{% block package_contact_fields %}
+  <legend><h2> {{ _('Contact Information') }} </h2></legend>
+  {{ form.input('author_name', id='field-author-name', label=_('Author'), placeholder=_('Joe Bloggs'), value=extras_dict.get('author_name'), error=errors.author_name, is_required=true, classes=['control-medium']) }}
+  {{ form.input('author_mail', id='field-author-email', label=_('Author Email'), placeholder=_('joe@example.com'), value=extras_dict.get('author_mail'), error=errors.author_email, classes=['control-medium']) }}
+  {{ form.input('author_phone', id='field-author-phone', label=_('Author Phone'), placeholder=_('02-12345678'), value=extras_dict.get('author_phone'), error=errors.author_phone, classes=['control-medium']) }}
+  {{ form.input('maintainer_name', id='field-maintainer-name', label=_('Maintainer Name'), placeholder=_('Joe Bloggs'), value=extras_dict.get('maintainer_name'), error=errors.maintainer_name, classes=['control-medium']) }}
+  {{ form.input('maintainer_mail', id='field-maintainer-email', label=_('Maintainer Email'), placeholder=_('joe@example.com'), value=extras_dict.get('maintainer_mail'), error=errors.maintainer_email, classes=['control-medium']) }}
+  {{ form.input('maintainer_phone', id='field-maintainer-phone', label=_('Maintainer Phone'), placeholder=_('02-12345678'), value=extras_dict.get('maintainer_phone'), error=errors.maintainer_phone, classes=['control-medium']) }}
+{% endblock %}
+
+{% block package_theme_fields %}
+  <legend><h2> {{ _('Theme Keywords') }} </h2></legend>
+  {% snippet 'snippets/theme_keyword_1.html', data=extras_dict, errors=errors, field_name='theme_keyword_1' %}
+  {% snippet 'snippets/theme_keyword_2.html', data=extras_dict, errors=errors, field_name='theme_keyword_2' %}
+  {% snippet 'snippets/theme_keyword_3.html', data=extras_dict, errors=errors, field_name='theme_keyword_3' %}
+  {% snippet 'snippets/theme_keyword_4.html', data=extras_dict, errors=errors, field_name='theme_keyword_4' %}
+  {% snippet 'snippets/theme_keyword_5.html', data=extras_dict, errors=errors, field_name='theme_keyword_5' %}
+  {% snippet 'snippets/loc_keyword.html', data=extras_dict, errors=errors, field_name='loc_keyword' %}
+{% endblock %}
+
+{% block package_misc_fields %}
+  <legend><h2> {{_('Miscellaneous') }} </h2></legend>
+  {% snippet 'snippets/language_list.html', data=extras_dict, errors=errors, field_name='language' %}
+  {% snippet 'snippets/encoding_list.html', data=extras_dict, errors=errors, field_name='encoding' %}
+
+  {% block package_basic_fields_tags %}
+    {% set tag_attrs = {'data-module': 'autocomplete', 'data-module-tags': '', 'data-module-source': '/api/2/util/tag/autocomplete?incomplete=?'} %}
+    {{ form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs) }}
+  {% endblock %}
+
+  {{ form.input('ref', id='field-ref', label=_('Reference'), value=extras_dict.get('ref'), error=errors.ref, classes=['control-medium']) }}
+{% endblock %}
+
+{% block package_basic_fields_license %}
+<div class="control-group">
+  {% set error = errors.license_id %}
+  <label class="control-label" for="field-license">{{ _("License") }}</label>
+  <div class="controls">
+    <select id="field-license" name="license_id" data-module="autocomplete">
+      {% for license_desc, license_id in licenses|sort if license_desc  %}
+        <option value="{{ license_id }}" {% if data.get('license_id', 'notspecified') == license_id %}selected="selected"{% endif %}>{{ license_desc }}</option>
+      {% endfor %}
+    </select>
+    {% if error %}<span class="error-block">{{ error }}</span>{% endif %}
+    <span class="info-block info-inline">
+      <i class="icon-info-sign"></i>
+      {% trans %}
+        License definitions and additional information can be found
+        at <a href="http://opendefinition.org/licenses/">opendefinition.org</a>
+      {% endtrans %}
+    </span>
+  </div>
+</div>
+{% endblock %}
+
+{% snippet 'snippets/extended_fields.html', data=extras_dict, errors=errors %}

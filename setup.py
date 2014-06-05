@@ -3,6 +3,15 @@ import sys, os
 
 version = '0.1'
 
+entry_points = {
+    'ckan.plugins': [
+	'taijiang_datasets = ckanext.taijiang.plugin:TaijiangDatasets',
+    ],
+    'babel.extractors': [
+        'ckan = ckan.lib.extract:extract_ckan',
+    ],
+}
+
 setup(
     name='ckanext-taijiang',
     version=version,
@@ -22,10 +31,5 @@ setup(
     install_requires=[
         # -*- Extra requirements: -*-
     ],
-    entry_points='''
-        [ckan.plugins]
-        # Add plugins here, e.g.
-        # myplugin=ckanext.taijiang.plugin:PluginClass
-	taijiang_datasets = ckanext.taijiang.plugin:TaijiangDatasets
-    ''',
+    entry_points=entry_points,
 )

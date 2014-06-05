@@ -1,0 +1,14 @@
+<section class="group-list module module-narrow module-shallow">
+  <header class="module-heading">
+    {% set url=h.url_for(controller='organization', action='read', id=organization.name) %}
+    {% set truncate=truncate or 0 %}
+    <h3 class="media-heading"><a href={{ url }}>{{ organization.title or organization.name }}</a></h3>
+    {% if organization.description %}
+      {% if truncate == 0 %}
+        <p>{{ h.markdown_extract(organization.description)|urlize }}</p>
+      {% else %}
+        <p>{{ h.markdown_extract(organization.description, truncate)|urlize }}</p>
+      {% endif %}
+    {% endif %}
+  </header>
+</section>

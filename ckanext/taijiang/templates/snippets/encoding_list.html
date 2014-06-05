@@ -1,6 +1,6 @@
 <div class="control-group">
   {% set error = errors.encoding %}
-  <label class="control-label" for="field-{{ field_name }}">{{ _("編碼") }}</label>
+  <label class="control-label" for="field-{{ field_name }}">{{ _("Encoding") }}</label>
   <div class="controls">
     <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
       {% for value, label in h.get_encodings() %}

@@ -3,12 +3,12 @@ import logging
 # Bad imports: this should be in the toolkit
 
 from ckan.lib.plugins import DefaultGroupForm
-
 import ckan.plugins as p
-
+from datetime import datetime as date_parse
 import ckanext.taijiang.helpers as taijiang_helpers
-
-from ckanext.taijiang.logic.validators import create_db_date, show_db_date
+from ckan.lib.navl.dictization_functions import Invalid
+from ckan.logic import ValidationError
+from ckanext.taijiang.logic.validators import not_empty, float_validator, postive_integer_validator, postive_float_validator, lat_long_validator
 
 log = logging.getLogger(__name__)
 
@@ -35,27 +35,94 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         # Import core converters and validators
         _convert_to_extras = p.toolkit.get_converter('convert_to_extras')
         _ignore_missing = p.toolkit.get_validator('ignore_missing')
-	_not_empty = p.toolkit.get_validator('not_empty')
-        
+	_package_name_validator = p.toolkit.get_validator('package_name_validator')
+
 	schema.update({
-	   'author': [_not_empty, unicode],
 	   'identifier': [_ignore_missing, _convert_to_extras],
+	   'data_type': [_ignore_missing, _convert_to_extras],
 	   'language': [_ignore_missing, _convert_to_extras],
 	   'encoding': [_ignore_missing, _convert_to_extras],
 	   'temp_res': [_ignore_missing, _convert_to_extras],
-	   'start_time': [_ignore_missing, show_db_date, _convert_to_extras],
-	   'end_time': [_ignore_missing, show_db_date, _convert_to_extras],
+	   'start_time': [not_empty, _ignore_missing, _convert_to_extras],
+	   'end_time': [not_empty, _ignore_missing, _convert_to_extras],
 	   'theme_keyword_1': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_2': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_3': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_4': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_5': [_ignore_missing, _convert_to_extras],
+	   'loc_keyword': [_ignore_missing, _convert_to_extras],
+	   'author_name': [not_empty, _ignore_missing, _convert_to_extras],
+	   'author_mail': [_ignore_missing, _convert_to_extras],
 	   'author_phone': [_ignore_missing, _convert_to_extras],
+	   'maintainer_name': [_ignore_missing, _convert_to_extras],
+	   'maintainer_mail': [_ignore_missing, _convert_to_extras],
 	   'maintainer_phone': [_ignore_missing, _convert_to_extras],
+	   'ref': [_ignore_missing, _convert_to_extras],
+	   'spatial': [_ignore_missing, _convert_to_extras],
+	   'book_isbn': [_ignore_missing, _convert_to_extras],
+	   'book_issn': [_ignore_missing, _convert_to_extras],
+	   'scan_source': [_ignore_missing, _convert_to_extras],
+	   'scan_size': [_ignore_missing, _convert_to_extras],
+	   'scan_res': [_ignore_missing, postive_integer_validator, _convert_to_extras],
+	   'x_min': [_ignore_missing, lat_long_validator, _convert_to_extras],
+	   'x_max': [_ignore_missing, lat_long_validator, _convert_to_extras],
+	   'y_min': [_ignore_missing, lat_long_validator, _convert_to_extras],
+	   'y_max': [_ignore_missing, lat_long_validator, _convert_to_extras],
+	   'crs': [_ignore_missing, postive_integer_validator, _convert_to_extras],
+	   'spatial_res': [_ignore_missing, postive_integer_validator, _convert_to_extras],
+	   'scale': [_ignore_missing, postive_integer_validator, _convert_to_extras],
+	   'preprocessing': [_ignore_missing, _convert_to_extras],
+	   #'wave_band_min': [_ignore_missing, float_validator, _convert_to_extras],
+	   #'wave_band_max': [_ignore_missing, float_validator, _convert_to_extras],
+	   #'wave_band_bit': [_ignore_missing, postive_float_validator, _convert_to_extras],
         })
 
         return schema
-
+    
+    def validate(self, context, data_dict, schema, action):
+        if 'temp_res' not in data_dict:
+	    return p.toolkit.navl_validate(data_dict, schema, context)
+        temp_res = data_dict['temp_res']
+        if (temp_res == u'date'):
+            try:
+	        date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
+		date_parse.strptime(data_dict['end_time'], '%Y-%m-%d')
+	    except ValueError:
+	        raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY-MM-DD"]})
+	if (temp_res == u'month'):
+            try:
+                date_parse.strptime(data_dict['start_time'], '%Y-%m')
+		date_parse.strptime(data_dict['end_time'], '%Y-%m')
+            except ValueError:
+	         raise ValidationError({"Time Format Error": ["Incorrect data format, should be YYYY-MM"]})
+        if (temp_res == u'year'):
+            try:
+                date_parse.strptime(data_dict['start_time'], '%Y')
+                date_parse.strptime(data_dict['end_time'], '%Y')
+            except ValueError:
+                raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+        if (temp_res == u'decade'):
+            try:
+                date_parse.strptime(data_dict['start_time'], '%Y')
+                date_parse.strptime(data_dict['end_time'], '%Y')
+	        for time_type in ['start_time', 'end_time']:
+		    res = int(data_dict[time_type])%10
+		    if (res != 0):
+		        data_dict[time_type] = str(int(data_dict[time_type]) - res)
+            except ValueError:
+	        raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+        if (temp_res == u'century'):
+            try:
+                date_parse.strptime(data_dict['start_time'], '%Y')
+                date_parse.strptime(data_dict['end_time'], '%Y')
+                for time_type in ['start_time', 'end_time']:
+                    res = int(data_dict[time_type])%100
+                    if (res != 0):
+                        data_dict[time_type] = str(int(data_dict[time_type]) - res)
+            except ValueError:
+                raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+	return p.toolkit.navl_validate(data_dict, schema, context)
+    
     def create_package_schema(self):
         schema = super(TaijiangDatasets, self).create_package_schema()
         schema = self._modify_package_schema(schema)
@@ -72,41 +139,63 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         # Import core converters and validators
         _convert_from_extras = p.toolkit.get_converter('convert_from_extras')
         _ignore_missing = p.toolkit.get_validator('ignore_missing')
-        _ignore_empty = p.toolkit.get_validator('ignore_empty')
 
         schema.update({
 	    'identifier': [_ignore_missing, _convert_from_extras],
+	    'data_type': [_ignore_missing, _convert_from_extras],
             'language': [_ignore_missing, _convert_from_extras],
 	    'encoding': [_ignore_missing, _convert_from_extras],
 	    'temp_res': [_ignore_missing, _convert_from_extras],
-	    'start_time': [_ignore_missing, _ignore_empty, create_db_date, _convert_from_extras],
-	    'end_time': [_ignore_missing, _ignore_empty, create_db_date, _convert_from_extras],
+	    'start_time': [_ignore_missing, _convert_from_extras],
+	    'end_time': [_ignore_missing, _convert_from_extras],
 	    'theme_keyword_1': [_ignore_missing, _convert_from_extras],
 	    'theme_keyword_2': [_ignore_missing, _convert_from_extras],
 	    'theme_keyword_3': [_ignore_missing, _convert_from_extras],
 	    'theme_keyword_4': [_ignore_missing, _convert_from_extras],
 	    'theme_keyword_5': [_ignore_missing, _convert_from_extras],
+	    'loc_keyword': [_ignore_missing, _convert_from_extras],
+	    'author_name': [_ignore_missing, _convert_from_extras],
+	    'author_mail': [_ignore_missing, _convert_from_extras],
 	    'author_phone': [_ignore_missing, _convert_from_extras],
+	    'maintainer_name': [_ignore_missing, _convert_from_extras],
+	    'maintainer_mail': [_ignore_missing, _convert_from_extras],
 	    'maintainer_phone': [_ignore_missing, _convert_from_extras],
+	    'ref': [_ignore_missing, _convert_from_extras],
+	    'spatial': [_ignore_missing, _convert_from_extras],
+	    'book_isbn': [_ignore_missing, _convert_from_extras],
+	    'book_issn': [_ignore_missing, _convert_from_extras],
+	    'scan_source': [_ignore_missing, _convert_from_extras],
+	    'scan_size': [_ignore_missing, _convert_from_extras],
+	    'scan_res': [_ignore_missing, postive_integer_validator, _convert_from_extras],
+	    'x_min': [_ignore_missing, lat_long_validator, _convert_from_extras],
+	    'x_max': [_ignore_missing, lat_long_validator, _convert_from_extras],
+	    'y_min': [_ignore_missing, lat_long_validator, _convert_from_extras],
+	    'y_max': [_ignore_missing, lat_long_validator, _convert_from_extras],
+	    'crs': [_ignore_missing, postive_integer_validator, _convert_from_extras],
+	    'spatial_res': [_ignore_missing, postive_integer_validator, _convert_from_extras],
+	    'scale': [_ignore_missing, postive_integer_validator, _convert_from_extras],
+	    'preprocessing': [_ignore_missing, _convert_from_extras],
+	    #'wave_band_min': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
+	    #'wave_band_max': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
+	    #'wave_band_bit': [_ignore_missing, postive_float_validator, _ignore_empty, _convert_from_extras],
         })
 
         return schema
-
+    
     def update_config(self, config):
         
        p.toolkit.add_template_directory(config, 'templates')
+       p.toolkit.add_public_directory(config, 'public')
 
     ## ITemplateHelpers
     def get_helpers(self):
 
         function_names = (
+	    'get_data_types',
             'get_languages',
 	    'get_encodings',
-	    'get_theme_keywords_1',
-	    'get_theme_keywords_2',
-	    'get_theme_keywords_3',
-	    'get_theme_keywords_4',
-	    'get_theme_keywords_5',
+	    'get_theme_keywords',
+	    'get_loc_keyword',
 	    'get_temp_res',
 	    'extras_to_dict',
         )

@@ -3,5 +3,6 @@ syntax: glob
 *.egg-info
 *.swp
 *~
+*.bak
 dist
 build

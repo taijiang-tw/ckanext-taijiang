@@ -1,9 +1,9 @@
 <div class="control-group">
   {% set error = errors.theme_keywords_2 %}
-  <label class="control-label" for="field-{{ field_name }}">{{ _("主題關鍵字2") }}</label>
+  <label class="control-label" for="field-{{ field_name }}">{{ _("Theme Keyword 2") }}</label>
   <div class="controls">
     <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
-      {% for value, label in h.get_theme_keywords_2() %}
+      {% for value, label in h.get_theme_keywords() %}
         <option value="{{ value }}"{% if data.get(field_name) == value %} selected="selected"{% endif %}>{{ label }}</option>
       {% endfor %}
     </select>

@@ -1,6 +1,6 @@
 <div class="control-group">
   {% set error = errors.language %}
-  <label class="control-label" for="field-{{ field_name }}">{{ _("語言") }}</label>
+  <label class="control-label" for="field-{{ field_name }}">{{ _("Language") }}</label>
   <div class="controls">
     <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
       {% for value, label in h.get_languages() %}
