@@ -23,6 +23,17 @@
               {% endif %}
             {% endfor %}
           </tr>
+	{% endif %}
+
+        {% if extras_dict.get('proj') %}
+          <tr>
+             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Project") }}</th>
+            {% for value, label in h.get_proj() %}
+              {% if extras_dict.get('proj') == value %}
+                <td class="dataset-details" property="rdf:value">{{ label }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
         {% endif %}
 
         {% if extras_dict.get('language') %}

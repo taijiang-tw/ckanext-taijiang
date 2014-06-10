@@ -27,6 +27,9 @@ def get_loc_keyword():
 def get_temp_res():
    return lists.TEMP_RES
 
+def get_proj():
+   return lists.PROJS
+
 def extras_to_dict(pkg):
    extras_dict = {}
    if pkg and 'extras' in pkg:

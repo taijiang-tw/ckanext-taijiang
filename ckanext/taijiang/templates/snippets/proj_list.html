@@ -1,0 +1,13 @@
+<div class="control-group">
+  {% set error = errors.proj_list %}
+  <label class="control-label" for="field-{{ field_name }}">{{ _("Project") }}</label>
+  <div class="controls">
+    <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
+      {% for value, label in h.get_proj() %}
+        <option value="{{ value }}"{% if data.get(field_name) == value %} selected="selected"{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    {% if error %}<span class="error-block">{{ error }}</span>{% endif %}
+  </div>
+</div>
+

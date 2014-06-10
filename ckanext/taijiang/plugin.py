@@ -9,6 +9,7 @@ import ckanext.taijiang.helpers as taijiang_helpers
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.logic import ValidationError
 from ckanext.taijiang.logic.validators import not_empty, float_validator, postive_integer_validator, postive_float_validator, lat_long_validator
+from ckanext.taijiang.logic.converters import remove_blank_wrap
 
 log = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	schema.update({
 	   'identifier': [_ignore_missing, _convert_to_extras],
 	   'data_type': [_ignore_missing, _convert_to_extras],
+	   'proj': [_ignore_missing, _convert_to_extras],
 	   'language': [_ignore_missing, _convert_to_extras],
 	   'encoding': [_ignore_missing, _convert_to_extras],
 	   'temp_res': [_ignore_missing, _convert_to_extras],
@@ -58,7 +60,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	   'maintainer_mail': [_ignore_missing, _convert_to_extras],
 	   'maintainer_phone': [_ignore_missing, _convert_to_extras],
 	   'ref': [_ignore_missing, _convert_to_extras],
-	   'spatial': [_ignore_missing, _convert_to_extras],
+	   'spatial': [_ignore_missing, remove_blank_wrap, _convert_to_extras],
 	   'book_isbn': [_ignore_missing, _convert_to_extras],
 	   'book_issn': [_ignore_missing, _convert_to_extras],
 	   'scan_source': [_ignore_missing, _convert_to_extras],
@@ -143,6 +145,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         schema.update({
 	    'identifier': [_ignore_missing, _convert_from_extras],
 	    'data_type': [_ignore_missing, _convert_from_extras],
+	    'proj': [_ignore_missing, _convert_from_extras],
             'language': [_ignore_missing, _convert_from_extras],
 	    'encoding': [_ignore_missing, _convert_from_extras],
 	    'temp_res': [_ignore_missing, _convert_from_extras],
@@ -197,6 +200,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'get_theme_keywords',
 	    'get_loc_keyword',
 	    'get_temp_res',
+	    'get_proj',
 	    'extras_to_dict',
         )
         return _get_module_functions(taijiang_helpers, function_names)
