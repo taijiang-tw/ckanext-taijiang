@@ -1,0 +1,49 @@
+<h3>{{ _('Contact Information') }}</h3>
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th scope="col">{{ _('Field') }}</th>
+      <th scope="col">{{ _('Value') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if data.get('author_mail') %}
+      <tr>
+        <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+        <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=data.get('author_mail'), name=data.get('author_name')) }}</td>
+      </tr>
+    {% elif data.get('author_name') %}
+      <tr>
+        <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+        <td class="dataset-details" property="dc:creator">{{ data.get('author_name') }}</td>
+     </tr>
+    {% endif %}
+
+    {% if data.get('author_phone') %}
+      <tr>
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Author Phone") }}</th>
+        <td class="dataset-details" property="rdf:value">{{ data.get('author_phone') }}</td>
+      </tr>
+    {% endif %}
+
+    {% if data.get('maintainer_mail') %}
+      <tr>
+        <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+        <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=data.get('maintainer_mail'), name=data.get('maintainer_name')) }}</td>
+     </tr>
+
+    {% elif data.get('maintainer_name') %}
+      <tr>
+        <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+        <td class="dataset-details" property="dc:contributor">{{ data.get('maintainer_name') }}</td>
+      </tr>
+    {% endif %}
+
+    {% if data.get('maintainer_phone') %}
+      <tr "dc:relation">
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Maintainer Phone") }}</th>
+        <td class="dataset-details" property="rdf:value">{{ data.get('maintainer_phone') }}</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>

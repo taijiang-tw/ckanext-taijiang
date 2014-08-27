@@ -29,6 +29,8 @@
   {% snippet 'snippets/proj_list.html', data=extras_dict, errors=errors, field_name='proj' %}
 {% endblock %}
 
+{% snippet 'snippets/extended_fields.html', data=extras_dict, errors=errors %}
+
 {% block package_basic_fields_org %}
   {# if we have a default group then this wants remembering #}
   {% if data.group_id %}
@@ -131,12 +133,31 @@
 
 {% block package_theme_fields %}
   <legend><h2> {{ _('Keywords') }} </h2></legend>
-  {% snippet 'snippets/theme_keyword_1.html', data=extras_dict, errors=errors, field_name='theme_keyword_1' %}
-  {% snippet 'snippets/theme_keyword_2.html', data=extras_dict, errors=errors, field_name='theme_keyword_2' %}
-  {% snippet 'snippets/theme_keyword_3.html', data=extras_dict, errors=errors, field_name='theme_keyword_3' %}
-  {% snippet 'snippets/theme_keyword_4.html', data=extras_dict, errors=errors, field_name='theme_keyword_4' %}
-  {% snippet 'snippets/theme_keyword_5.html', data=extras_dict, errors=errors, field_name='theme_keyword_5' %}
+  {% snippet 'snippets/theme_keyword.html', data=extras_dict, field_name='theme_keyword' %}
+{% endblock %}
+
+{% block package_spatial_fields %}
+  <legend><h2> {{ _('Spatial Fields') }} </h2></legend>
   {% snippet 'snippets/loc_keyword.html', data=extras_dict, errors=errors, field_name='loc_keyword' %}
+  {{ form.input('x_min', id='field-x-min', label=_('X.min'), placeholder=_('填寫圖資空間四至範圍之最西經度值'), value=extras_dict.get('x_min'), error=errors.x_min, classes=['control-medium']) }}
+  {{ form.input('x_max', id='field-x-max', label=_('X.max'), placeholder=_('填寫圖資空間四至範圍之最東經度值'), value=extras_dict.get('x_max'), error=errors.x_max, classes=['control-medium']) }}
+  {{ form.input('y_min', id='field-y-min', label=_('Y.min'), placeholder=_('填寫圖資空間四至範圍之最南緯度值'), value=extras_dict.get('y_min'), error=errors.y_min, classes=['control-medium']) }}
+  {{ form.input('y_max', id='field-y-max', label=_('Y.max'), placeholder=_('填寫圖資空間四至範圍之最北緯度值'), value=extras_dict.get('y_max'), error=errors.y_max, classes=['control-medium']) }}
+  {% set spatial_tooltip = "<pre><p>需為有效的 <b>GeoJSON</b> geometry 格式 (Polygon 與 Point)，例如：</p><p>{</p><p>\"type\":\"Polygon\",</p><p>\"coordinates\":[[[2.05827, 49.8625],[2.05827, 55.7447], [-6.41736, 55.7447], [-6.41736, 49.8625], [2.05827, 49.8625]]]</p><p>}</p></pre><p><b><a href='http://docs.ckan.org/projects/ckanext-spatial/en/latest/spatial-search.html#geo-indexing-your-datasets' target='_blank'>ckanext-spatial 官網相關說明</a></b></p>" %}
+  <div class='control-group control-full'>
+    <label class='control-label'>{{_('Spatial')}}</label>
+    <div class='controls editor'>
+      <textarea id="field-spatial" name="spatial" placeholder="{{_('Accept geojson')}}" cols="20" rows="3">{{ extras_dict.get('spatial')|empty_and_escape }}</textarea>
+      <span class="editor-info-block">{{_('此欄位將作為空間索引之用。關於 GeoJSON 格式請見 ')}}<a href="#spatial" title="spatial" data-target="popover" data-content="{{ spatial_tooltip }}" data-html="true">{{_('格式說明')}}</a>{{_('。')}}</span>
+    </div>
+  </div>
+  <div class="control-group control-medium">
+    <div class="controls">
+      <button id='convert_from_four_range' class='btn btn-primary' type='button'>{{_('自四至範圍轉換')}}</button>
+      <button id='show_map' class='btn btn-primary' type='button'>{{_('使用圖台新增')}}</button>
+      <div id='map'></div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block package_misc_fields %}
@@ -173,5 +194,3 @@
   </div>
 </div>
 {% endblock %}
-
-{% snippet 'snippets/extended_fields.html', data=extras_dict, errors=errors %}

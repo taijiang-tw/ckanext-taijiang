@@ -1,305 +1,112 @@
-{% ckan_extends %}
-
 {% if pkg_dict.get('extras', [])|length %}
   {% set extras_dict = h.extras_to_dict(pkg_dict) %}
 {% else %}
   {% set extras_dict = pkg_dict %}
 {% endif %}
+<section class="additional-info">
+  <h3>{{ _('Additional Info') }}</h3>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th scope="col">{{ _('Field') }}</th>
+        <th scope="col">{{ _('Value') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if extras_dict.get('identifier') %}
+        <tr>
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Identifier") }}</th>
+          <td class="dataset-details" property="rdf:value">{{ extras_dict.get('identifier') }}</td>
+        </tr>
+      {% endif %}
+        
+      {% if extras_dict.get('data_type') %}
+        <tr>
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Data Type") }}</th>
+          {% for value, label in h.get_data_types() %}
+            {% if extras_dict.get('data_type') == value %}
+              <td class="dataset-details" property="rdf:value">{{ label }}</td>
+      	    {% endif %}
+          {% endfor %}
+     	</tr>
+      {% endif %}
 
-{% block package_additional_info %}
-        {% if extras_dict.get('identifier') %}
-          <tr>
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Identifier") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('identifier') }}</td>
-          </tr>
-        {% endif %}
+      {% if extras_dict.get('proj') %}
+        <tr>
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Project") }}</th>
+          {% for value, label in h.get_proj() %}
+            {% if extras_dict.get('proj') == value %}
+              <td class="dataset-details" property="rdf:value">{{ label }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endif %}
 
-        {% if extras_dict.get('data_type') %}
-          <tr>
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Data Type") }}</th>
-            {% for value, label in h.get_data_types() %}
-              {% if extras_dict.get('data_type') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-	{% endif %}
+      {% if extras_dict.get('language') %}
+        <tr>
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Language") }}</th>
+          {% for value, label in h.get_languages() %}
+            {% if extras_dict.get('language') == value %}
+              <td class="dataset-details" property="rdf:value">{{ label }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endif %}
 
-        {% if extras_dict.get('proj') %}
-          <tr>
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Project") }}</th>
-            {% for value, label in h.get_proj() %}
-              {% if extras_dict.get('proj') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+      {% if extras_dict.get('encoding') %}
+        <tr>
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Encoding")}}</th>
+          {% for value, label in h.get_encodings() %}
+            {% if extras_dict.get('encoding') == value %}
+              <td class="dataset-details" property="rdf:value">{{ label }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endif %}
 
-        {% if extras_dict.get('language') %}
-          <tr>
-	     <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Language") }}</th>
-	    {% for value, label in h.get_languages() %}
-	      {% if extras_dict.get('language') == value %} 
-	        <td class="dataset-details" property="rdf:value">{{ label }}</td>
-	      {% endif %}
-	    {% endfor %}
-          </tr>
-        {% endif %}
+      {% if extras_dict.get('ref') %}
+        <tr "dc:relation">
+          <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Reference") }}</th>
+          <td class="dataset-details" property="rdf:value">{{ extras_dict.get('ref') }}</td>
+        </tr>
+      {% endif %}
 
-        {% if extras_dict.get('encoding') %}
-          <tr>
-	     <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Encoding")}}</th>
-            {% for value, label in h.get_encodings() %}
-              {% if extras_dict.get('encoding') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+      {% if pkg_dict.version %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Version") }}</th>
+          <td class="dataset-details">{{ pkg_dict.version }}</td>
+        </tr>
+      {% endif %}
 
-        {% if extras_dict.get('theme_keyword_1') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Theme Keyword 1")}}</th>
-            {% for value, label in h.get_theme_keywords() %}
-              {% if extras_dict.get('theme_keyword_1') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+      {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("State") }}</th>
+          <td class="dataset-details">{{ pkg_dict.state }}</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
 
-        {% if extras_dict.get('theme_keyword_2') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Theme Keyword 2")}}</th>
-            {% for value, label in h.get_theme_keywords() %}
-              {% if extras_dict.get('theme_keyword_2') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+  {% snippet 'package/snippets/package_temporal_fields.html', data=extras_dict %}
+  {% snippet 'package/snippets/package_contact_fields.html', data=extras_dict %}
 
-        {% if extras_dict.get('theme_keyword_3') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Theme Keyword 3")}}</th>
-            {% for value, label in h.get_theme_keywords() %}
-              {% if extras_dict.get('theme_keyword_3') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+  {% if extras_dict.get('theme_keyword_1') or extras_dict.get('theme_keyword_2') or extras_dict.get('theme_keyword_3') or extras_dict.get('theme_keyword_4') or extras_dict.get('theme_keyword_5') %}
+    {% snippet 'package/snippets/package_theme_fields.html', data=extras_dict %}
+  {% endif %}
 
-        {% if extras_dict.get('theme_keyword_4') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Theme Keyword 4")}}</th>
-            {% for value, label in h.get_theme_keywords() %}
-              {% if extras_dict.get('theme_keyword_4') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+  {% if extras_dict.get('loc_keyword') or extras_dict.get('x_min') or extras_dict.get('x_max') or extras_dict.get('y_min') or extras_dict.get('y_max') or extras_dict.get('spatial') %}
+    {% snippet 'package/snippets/package_spatial_fields.html', data=extras_dict %}
+  {% endif %}
 
-        {% if extras_dict.get('theme_keyword_5') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Theme Keyword 5")}}</th>
-            {% for value, label in h.get_theme_keywords() %}
-              {% if extras_dict.get('theme_keyword_5') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+  {% if extras_dict.get('scan_source') or extras_dict.get('scan_size') or extras_dict.get('scan_res') %}
+    {% snippet 'package/snippets/package_scanned_image_fields.html', data=extras_dict %}
+  {% endif %}
 
-        {% if extras_dict.get('loc_keyword') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Spatial Keyword")}}</th>
-            {% for value, label in h.get_loc_keyword() %}
-              {% if extras_dict.get('loc_keyword') == value %}
-                <td class="dataset-details" property="rdf:value">{{ label }}</td>
-              {% endif %}
-            {% endfor %}
-          </tr>
-        {% endif %}
+  {% if extras_dict.get('crs') or extras_dict.get('spatial_res') or extras_dict.get('scale') or extras_dict.get('preprocessing') %}
+    {% snippet 'package/snippets/package_spatial_type_fields.html', data=extras_dict %}
+  {% endif %}
 
-        {% if extras_dict.get('start_time') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Start Time")}}</th>
-	    <td class="dataset-details" property="rdf:value">{{ extras_dict.get('start_time') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('end_time') %}
-          <tr>
-            <th scope="row" class="dataset-label" property="rdfs:label">{{ _("End Time")}}</th>
-            <td class="dataset-details" property="rdf:value">{{ extras_dict.get('end_time') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if pkg_dict.url %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Source') }}</th>
-            <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('author_mail') %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-            <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=extras_dict.get('author_mail'), name=extras_dict.get('author_name')) }}</td>
-          </tr>
-        {% elif extras_dict.get('author_name') %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-            <td class="dataset-details" property="dc:creator">{{ extras_dict.get('author_name') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('author_phone') %}
-	  <tr>
-	     <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Author Phone") }}</th>
-	     <td class="dataset-details" property="rdf:value">{{ extras_dict.get('author_phone') }}</td>
-	  </tr>
-        {% endif %}
-
-        {% if extras_dict.get('maintainer_mail') %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-            <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=extras_dict.get('maintainer_mail'), name=extras_dict.get('maintainer_name')) }}</td>
-	 </tr>
-        {% elif extras_dict.get('maintainer_name') %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-	    <td class="dataset-details" property="dc:contributor">{{ extras_dict.get('maintainer_name') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('maintainer_phone') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Maintainer Phone") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('maintainer_phone') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('spatial') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Spatial") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('spatial') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('ref') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Reference") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('ref') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('book_isbn') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("ISBN-13") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('book_isbn') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('book_issn') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("ISSN") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('book_issn') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('scan_source') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Scan Source") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('scan_source') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('scan_size') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Scan Size") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('scan_size') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('scan_res') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Scan Resolution") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('scan_res') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('x_min') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("X.min") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('x_min') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('x_max') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("X.max") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('x_max') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('y_min') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Y.min") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('y_min') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('y_max') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Y.max") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('y_max') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('crs') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Coordinate Systems") }}</th>
-             <td class="dataset-details" property="rdf:value">EPSG: {{ extras_dict.get('crs') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('spatial_res') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Spatial Resolution") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('spatial_res') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('preprocessing') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Preprocessing") }}</th>
-	     <td class="dataset-details notes embedded-content" property="rdf:value">{{ h.render_markdown(extras_dict.get('preprocessing')) }}</td>
-          </tr>
-        {% endif %}
-
-        {% if extras_dict.get('scale') %}
-          <tr "dc:relation">
-             <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Scale") }}</th>
-             <td class="dataset-details" property="rdf:value">{{ extras_dict.get('scale') }}</td>
-          </tr>
-        {% endif %}
-
-        {% if pkg_dict.version %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("Version") }}</th>
-            <td class="dataset-details">{{ pkg_dict.version }}</td>
-          </tr>
-        {% endif %}
-
-        {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-          <tr>
-            <th scope="row" class="dataset-label">{{ _("State") }}</th>
-            <td class="dataset-details">{{ pkg_dict.state }}</td>
-          </tr>
-        {% endif %}
-
-      {% endblock %}
+  {% if extras_dict.get('book_isbn') or extras_dict.get('book_issn') or extras_dict.get('book_journal') or extras_dict.get('book_volume') or extras_dict.get('book_proceeding') or extras_dict.get('book_location') or extras_dict.get('book_publisher') or extras_dict.get('book_year') or extras_dict.get('book_query') or extras_dict.get('book_url') or extras_dict.get('book_his_material') or extras_dict.get('book_area_village') or extras_dict.get('book_area_religion') or extras_dict.get('book_area_family') or extras_dict.get('book_area_reservoir') or extras_dict.get('book_area_industry') or extras_dict.get('book_notes') %}
+    {% snippet 'package/snippets/package_book_fields.html', data=extras_dict %}
+  {% endif %}
+</section>

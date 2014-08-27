@@ -8,7 +8,7 @@ from datetime import datetime as date_parse
 import ckanext.taijiang.helpers as taijiang_helpers
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.logic import ValidationError
-from ckanext.taijiang.logic.validators import not_empty, float_validator, postive_integer_validator, postive_float_validator, lat_long_validator
+from ckanext.taijiang.logic.validators import not_empty, float_validator, positive_integer_validator, positive_float_validator, long_validator, lat_validator, json_validator
 from ckanext.taijiang.logic.converters import remove_blank_wrap
 
 log = logging.getLogger(__name__)
@@ -60,71 +60,101 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	   'maintainer_mail': [_ignore_missing, _convert_to_extras],
 	   'maintainer_phone': [_ignore_missing, _convert_to_extras],
 	   'ref': [_ignore_missing, _convert_to_extras],
-	   'spatial': [_ignore_missing, remove_blank_wrap, _convert_to_extras],
+	   'spatial': [_ignore_missing, remove_blank_wrap, _convert_to_extras, json_validator],
 	   'book_isbn': [_ignore_missing, _convert_to_extras],
 	   'book_issn': [_ignore_missing, _convert_to_extras],
+           'book_journal': [_ignore_missing, _convert_to_extras],
+           'book_volume': [_ignore_missing, _convert_to_extras],
+           'book_proceeding': [_ignore_missing, _convert_to_extras],
+           'book_location': [_ignore_missing, _convert_to_extras],
+           'book_publisher': [_ignore_missing, _convert_to_extras],
+           'book_year': [_ignore_missing, _convert_to_extras],
+           'book_query': [_ignore_missing, _convert_to_extras],
+           'book_url': [_ignore_missing, _convert_to_extras],
+           'book_his_material': [_ignore_missing, _convert_to_extras],
+           'book_area_village': [_ignore_missing, _convert_to_extras],
+           'book_area_religion': [_ignore_missing, _convert_to_extras],
+           'book_area_family': [_ignore_missing, _convert_to_extras],
+           'book_area_reservoir': [_ignore_missing, _convert_to_extras],
+           'book_area_industry': [_ignore_missing, _convert_to_extras],
+           'book_notes': [_ignore_missing, _convert_to_extras],
 	   'scan_source': [_ignore_missing, _convert_to_extras],
 	   'scan_size': [_ignore_missing, _convert_to_extras],
-	   'scan_res': [_ignore_missing, postive_integer_validator, _convert_to_extras],
-	   'x_min': [_ignore_missing, lat_long_validator, _convert_to_extras],
-	   'x_max': [_ignore_missing, lat_long_validator, _convert_to_extras],
-	   'y_min': [_ignore_missing, lat_long_validator, _convert_to_extras],
-	   'y_max': [_ignore_missing, lat_long_validator, _convert_to_extras],
-	   'crs': [_ignore_missing, postive_integer_validator, _convert_to_extras],
-	   'spatial_res': [_ignore_missing, postive_integer_validator, _convert_to_extras],
-	   'scale': [_ignore_missing, postive_integer_validator, _convert_to_extras],
+	   'scan_res': [_ignore_missing, positive_integer_validator, _convert_to_extras],
+	   'x_min': [_ignore_missing, long_validator, _convert_to_extras],
+	   'x_max': [_ignore_missing, long_validator, _convert_to_extras],
+	   'y_min': [_ignore_missing, lat_validator, _convert_to_extras],
+	   'y_max': [_ignore_missing, lat_validator, _convert_to_extras],
+	   'crs': [_ignore_missing, positive_integer_validator, _convert_to_extras],
+	   'spatial_res': [_ignore_missing, positive_float_validator, _convert_to_extras],
+	   'scale': [_ignore_missing, positive_integer_validator, _convert_to_extras],
 	   'preprocessing': [_ignore_missing, _convert_to_extras],
 	   #'wave_band_min': [_ignore_missing, float_validator, _convert_to_extras],
 	   #'wave_band_max': [_ignore_missing, float_validator, _convert_to_extras],
-	   #'wave_band_bit': [_ignore_missing, postive_float_validator, _convert_to_extras],
+	   #'wave_band_bit': [_ignore_missing, positive_float_validator, _convert_to_extras],
         })
 
         return schema
     
     def validate(self, context, data_dict, schema, action):
-        if 'temp_res' not in data_dict:
-	    return p.toolkit.navl_validate(data_dict, schema, context)
-        temp_res = data_dict['temp_res']
-        if (temp_res == u'date'):
-            try:
-	        date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
-		date_parse.strptime(data_dict['end_time'], '%Y-%m-%d')
-	    except ValueError:
-	        raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY-MM-DD"]})
-	if (temp_res == u'month'):
-            try:
-                date_parse.strptime(data_dict['start_time'], '%Y-%m')
-		date_parse.strptime(data_dict['end_time'], '%Y-%m')
-            except ValueError:
-	         raise ValidationError({"Time Format Error": ["Incorrect data format, should be YYYY-MM"]})
-        if (temp_res == u'year'):
-            try:
-                date_parse.strptime(data_dict['start_time'], '%Y')
-                date_parse.strptime(data_dict['end_time'], '%Y')
-            except ValueError:
-                raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-        if (temp_res == u'decade'):
-            try:
-                date_parse.strptime(data_dict['start_time'], '%Y')
-                date_parse.strptime(data_dict['end_time'], '%Y')
-	        for time_type in ['start_time', 'end_time']:
-		    res = int(data_dict[time_type])%10
-		    if (res != 0):
-		        data_dict[time_type] = str(int(data_dict[time_type]) - res)
-            except ValueError:
-	        raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-        if (temp_res == u'century'):
-            try:
-                date_parse.strptime(data_dict['start_time'], '%Y')
-                date_parse.strptime(data_dict['end_time'], '%Y')
-                for time_type in ['start_time', 'end_time']:
-                    res = int(data_dict[time_type])%100
-                    if (res != 0):
-                        data_dict[time_type] = str(int(data_dict[time_type]) - res)
-            except ValueError:
-                raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-	return p.toolkit.navl_validate(data_dict, schema, context)
-    
+        if 'temp_res' in data_dict:
+            temp_res = data_dict['temp_res']
+            if (temp_res == u'date'):
+                try:
+	            date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
+		    date_parse.strptime(data_dict['end_time'], '%Y-%m-%d')
+	        except ValueError:
+	            raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY-MM-DD"]})
+	    if (temp_res == u'month'):
+                try:
+                    date_parse.strptime(data_dict['start_time'], '%Y-%m')
+		    date_parse.strptime(data_dict['end_time'], '%Y-%m')
+                except ValueError:
+	            raise ValidationError({"Time Format Error": ["Incorrect data format, should be YYYY-MM"]})
+            if (temp_res == u'year'):
+                try:
+                    date_parse.strptime(data_dict['start_time'], '%Y')
+                    date_parse.strptime(data_dict['end_time'], '%Y')
+                except ValueError:
+                    raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+            if (temp_res == u'decade'):
+                try:
+                    date_parse.strptime(data_dict['start_time'], '%Y')
+                    date_parse.strptime(data_dict['end_time'], '%Y')
+	            for time_type in ['start_time', 'end_time']:
+		        res = int(data_dict[time_type])%10
+		        if (res != 0):
+		            data_dict[time_type] = str(int(data_dict[time_type]) - res)
+                except ValueError:
+	            raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+            if (temp_res == u'century'):
+                try:
+                    date_parse.strptime(data_dict['start_time'], '%Y')
+                    date_parse.strptime(data_dict['end_time'], '%Y')
+                    for time_type in ['start_time', 'end_time']:
+                        res = int(data_dict[time_type])%100
+                        if (res != 0):
+                            data_dict[time_type] = str(int(data_dict[time_type]) - res)
+                except ValueError:
+                    raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+        '''
+        if ('x_min' in data_dict and 'x_max' in data_dict and 'y_min' in data_dict and 'y_max' in data_dict):
+	    if (data_dict['x_min'] != "" and data_dict['x_max'] != "" and data_dict['y_min'] != "" and data_dict['y_max'] != ""):
+	        data_dict['spatial'] = "{\"type\": \"Polygon\",\"coordinates\": [[[" +\
+	               data_dict['x_min'] + "," +\
+		       data_dict['y_min'] + "],[" +\
+		       data_dict['x_min'] + "," +\
+		       data_dict['y_max'] + "],[" +\
+		       data_dict['x_max'] + "," +\
+		       data_dict['y_max'] + "],[" +\
+		       data_dict['x_max'] + "," +\
+		       data_dict['y_min'] + "],[" +\
+		       data_dict['x_min'] + "," +\
+		       data_dict['y_min'] + "]]]}"
+	        #print data_dict['spatial']
+        '''
+        return p.toolkit.navl_validate(data_dict, schema, context)
+
     def create_package_schema(self):
         schema = super(TaijiangDatasets, self).create_package_schema()
         schema = self._modify_package_schema(schema)
@@ -164,23 +194,38 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'maintainer_mail': [_ignore_missing, _convert_from_extras],
 	    'maintainer_phone': [_ignore_missing, _convert_from_extras],
 	    'ref': [_ignore_missing, _convert_from_extras],
-	    'spatial': [_ignore_missing, _convert_from_extras],
+	    'spatial': [_ignore_missing, _convert_from_extras, json_validator],
 	    'book_isbn': [_ignore_missing, _convert_from_extras],
 	    'book_issn': [_ignore_missing, _convert_from_extras],
+            'book_journal': [_ignore_missing, _convert_from_extras],
+            'book_volume': [_ignore_missing, _convert_from_extras],
+            'book_proceeding': [_ignore_missing, _convert_from_extras],
+            'book_location': [_ignore_missing, _convert_from_extras],
+            'book_publisher': [_ignore_missing, _convert_from_extras],
+            'book_year': [_ignore_missing, _convert_from_extras],
+            'book_query': [_ignore_missing, _convert_from_extras],
+            'book_url': [_ignore_missing, _convert_from_extras],
+            'book_his_material': [_ignore_missing, _convert_from_extras],
+            'book_area_village': [_ignore_missing, _convert_from_extras],
+            'book_area_religion': [_ignore_missing, _convert_from_extras],
+            'book_area_family': [_ignore_missing, _convert_from_extras],
+            'book_area_reservoir': [_ignore_missing, _convert_from_extras],
+            'book_area_industry': [_ignore_missing, _convert_from_extras],
+            'book_notes': [_ignore_missing, _convert_from_extras],
 	    'scan_source': [_ignore_missing, _convert_from_extras],
 	    'scan_size': [_ignore_missing, _convert_from_extras],
-	    'scan_res': [_ignore_missing, postive_integer_validator, _convert_from_extras],
-	    'x_min': [_ignore_missing, lat_long_validator, _convert_from_extras],
-	    'x_max': [_ignore_missing, lat_long_validator, _convert_from_extras],
-	    'y_min': [_ignore_missing, lat_long_validator, _convert_from_extras],
-	    'y_max': [_ignore_missing, lat_long_validator, _convert_from_extras],
-	    'crs': [_ignore_missing, postive_integer_validator, _convert_from_extras],
-	    'spatial_res': [_ignore_missing, postive_integer_validator, _convert_from_extras],
-	    'scale': [_ignore_missing, postive_integer_validator, _convert_from_extras],
+	    'scan_res': [_ignore_missing, positive_integer_validator, _convert_from_extras],
+	    'x_min': [_ignore_missing, long_validator, _convert_from_extras],
+	    'x_max': [_ignore_missing, long_validator, _convert_from_extras],
+	    'y_min': [_ignore_missing, lat_validator, _convert_from_extras],
+	    'y_max': [_ignore_missing, lat_validator, _convert_from_extras],
+	    'crs': [_ignore_missing, positive_integer_validator, _convert_from_extras],
+	    'spatial_res': [_ignore_missing, positive_float_validator, _convert_from_extras],
+	    'scale': [_ignore_missing, positive_integer_validator, _convert_from_extras],
 	    'preprocessing': [_ignore_missing, _convert_from_extras],
 	    #'wave_band_min': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
 	    #'wave_band_max': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
-	    #'wave_band_bit': [_ignore_missing, postive_float_validator, _ignore_empty, _convert_from_extras],
+	    #'wave_band_bit': [_ignore_missing, positive_float_validator, _ignore_empty, _convert_from_extras],
         })
 
         return schema
@@ -189,18 +234,20 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         
        p.toolkit.add_template_directory(config, 'templates')
        p.toolkit.add_public_directory(config, 'public')
+       p.toolkit.add_resource('fanstatic', 'ckanext-taijiang')
 
     ## ITemplateHelpers
     def get_helpers(self):
 
         function_names = (
-	    'get_data_types',
+            'get_data_types',
             'get_languages',
 	    'get_encodings',
 	    'get_theme_keywords',
 	    'get_loc_keyword',
 	    'get_temp_res',
 	    'get_proj',
+            'get_his_material',
 	    'extras_to_dict',
         )
         return _get_module_functions(taijiang_helpers, function_names)

@@ -1,0 +1,38 @@
+<h3>{{ _('Spatial Type') }}</h3>
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th scope="col">{{ _('Field') }}</th>
+      <th scope="col">{{ _('Value') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if data.get('crs') %}
+      <tr "dc:relation">
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Coordinate Systems") }}</th>
+        <td class="dataset-details" property="rdf:value">EPSG: {{ data.get('crs') }}</td>
+      </tr>
+    {% endif %}
+
+    {% if data.get('spatial_res') %}
+      <tr "dc:relation">
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Spatial Resolution") }}</th>
+        <td class="dataset-details" property="rdf:value">{{ data.get('spatial_res') }}</td>
+      </tr>
+    {% endif %}
+
+    {% if data.get('scale') %}
+      <tr "dc:relation">
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Scale") }}</th>
+        <td class="dataset-details" property="rdf:value">{{ data.get('scale') }}</td>
+      </tr>
+    {% endif %}
+
+    {% if data.get('preprocessing') %}
+      <tr "dc:relation">
+        <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Preprocessing") }}</th>
+        <td class="dataset-details notes embedded-content" property="rdf:value">{{ h.render_markdown(data.get('preprocessing')) }}</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
