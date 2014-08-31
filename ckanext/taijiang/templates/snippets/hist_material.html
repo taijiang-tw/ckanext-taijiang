@@ -1,0 +1,18 @@
+{% import 'snippets/c_form.html' as c_form %}
+
+<div class='control-group'>
+  <label class='control-label'>{{ _('Historical Material') }}</label>
+    {{ c_form.checkbox('book_from_local_chronicles_in_qing_dynasty', id='field-book-from-local-chronicles-in-qing-dynasty', label=_('清代方志'), value="yes", checked=(true if data.get('book_from_local_chronicles_in_qing_dynasty') == "yes" else false), error=errors.book_from_local_chronicles_in_qing_dynasty) }}
+    {{ c_form.checkbox('book_from_japan_officials', id='field-book-from-japan-officials', label=_('日治出版品與官方資料'), value="yes", checked=(true if data.get('book_from_japan_officials') == "yes" else false), error=errors.book_from_japan_officials) }}
+    {{ c_form.checkbox('book_from_officials_in_postwar_period', id='field-book-from-officials-in-postwar-period', label=_('戰後官方資料與鄉鎮志'), value="yes", checked=(true if data.get('book_from_officials_in_postwar_period') == "yes" else false), error=errors.book_from_officials_in_postwar_period) }}
+    {{ c_form.checkbox('book_from_inscriptions', id='field-book-from-inscriptions', label=_('碑文'), value="yes", checked=(true if data.get('book_from_inscriptions') == "yes" else false), error=errors.book_from_inscriptions) }}
+    {{ c_form.checkbox('book_from_newspapers', id='field-book-from-newspapers', label=_('報紙'), value="yes", checked=(true if data.get('book_from_newspapers') == "yes" else false), error=errors.book_from_newspapers) }}
+    {{ c_form.checkbox('book_from_maps', id='field-book-from-maps', label=_('地圖'), value="yes", checked=(true if data.get('book_from_maps') == "yes" else false), error=errors.book_from_maps) }}
+    {{ c_form.checkbox('book_from_taiwanese_governor_office_files', id='field-book-from-taiwanese-governor-office-files', label=_('台灣總督府檔案（公文類纂、府報、調查報告、職員錄、衛生法規）'), value="yes", checked=(true if data.get('book_from_taiwanese_governor_office_files') == "yes" else false), error=errors.book_from_taiwanese_governor_office_files) }}
+    {{ c_form.checkbox('book_from_dutch_formosa', id='field-book-from-dutch-formosa', label=_('荷治時期檔案'), value="yes", checked=(true if data.get('book_from_dutch_formosa') == "yes" else false), error=errors.book_from_dutch_formosa) }}
+    {{ c_form.checkbox('book_from_field_researches', id='field-book-from-field-researches', label=_('地方田野收集文獻（族譜、寺廟志、帳冊、契約）'), value="yes", checked=(true if data.get('book_from_field_researches') == "yes" else false), error=errors.book_from_field_researches) }}
+</div>
+
+{% block styles %}
+  {% resource 'ckanext-taijiang/checkbox' %}
+{% endblock %}

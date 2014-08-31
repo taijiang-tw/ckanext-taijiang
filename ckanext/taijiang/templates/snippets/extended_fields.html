@@ -12,7 +12,7 @@
   {{ form.input('book_year', id='field-book-year', label=_('Publication Year'), value=data.get('book_year'), error=errors.book_year, classes=['control-medium']) }}
   {{ form.input('book_query', id='field-book-query', label=_('Book Query'), value=data.get('book_query'), error=errors.book_query, classes=['control-medium']) }}
   {{ form.input('book_url', id='field-book-url', label=_('URL'), value=data.get('book_url'), error=errors.book_url, classes=['control-medium']) }}
-  {% snippet 'snippets/hist_material_list.html', data=data, errors=errors, field_name='book_his_material' %}
+  {% snippet 'snippets/hist_material.html', data=data, errors=errors %}
   {{ form.input('book_area_village', id='field-book-area-village', label=_('Village of Research Area'), value=data.get('book_area_village'), error=errors.book_area_village, classes=['control-medium']) }}
   {{ form.input('book_area_religion', id='field-book-area-religion', label=_('Religion of Research Area'), value=data.get('book_area_religion'), error=errors.book_area_religion, classes=['control-medium']) }}
   {{ form.input('book_area_family', id='field-book-area-family', label=_('Family of Research Area'), value=data.get('book_area_family'), error=errors.book_area_family, classes=['control-medium']) }}

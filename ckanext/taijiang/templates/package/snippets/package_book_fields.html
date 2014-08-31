@@ -77,10 +77,39 @@
       </tr>
     {% endif %}
 
-    {% if data.get('book_his_material') %}
+    {% set book_hist_material = [] %}
+    {% if data.get('book_from_local_chronicles_in_qing_dynasty') == 'yes' %}
+      {% do book_hist_material.append("清代方志") %}
+    {% endif %}
+    {% if data.get('book_from_japan_officials') == 'yes' %}
+      {% do book_hist_material.append("日治出版品與官方資料") %}
+    {% endif %}
+    {% if data.get('book_from_officials_in_postwar_period') == 'yes' %}
+      {% do book_hist_material.append("戰後官方資料與鄉鎮志") %}
+    {% endif %}
+    {% if data.get('book_from_inscriptions') == 'yes' %}
+      {% do book_hist_material.append("碑文") %}
+    {% endif %}
+    {% if data.get('book_from_newspapers') == 'yes' %}
+      {% do book_hist_material.append("報紙") %}
+    {% endif %}
+    {% if data.get('book_from_maps') == 'yes' %}
+      {% do book_hist_material.append("地圖") %}
+    {% endif %}
+    {% if data.get('book_from_taiwanese_governor_office_files') == 'yes' %}
+      {% do book_hist_material.append("台灣總督府檔案（公文類纂、府報、調查報告、職員錄、衛生法規）") %}
+    {% endif %}
+    {% if data.get('book_from_dutch_formosa') == 'yes' %}
+      {% do book_hist_material.append("荷治時期檔案") %}
+    {% endif %}
+    {% if data.get('book_from_field_researches') == 'yes' %}
+      {% do book_hist_material.append("地方田野收集文獻（族譜、寺廟志、帳冊、契約）") %}
+    {% endif %}
+
+    {% if book_hist_material|length != 0 %}
       <tr "dc:relation">
         <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Historical Material") }}</th>
-        <td class="dataset-details" property="rdf:value">{{ data.get('book_his_material') }}</td>
+        <td class="dataset-details" property="rdf:value">{{ book_hist_material|join("、") }}</td>
       </tr>
     {% endif %}
 

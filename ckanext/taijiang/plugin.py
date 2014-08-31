@@ -9,7 +9,7 @@ import ckanext.taijiang.helpers as taijiang_helpers
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.logic import ValidationError
 from ckanext.taijiang.logic.validators import not_empty, float_validator, positive_integer_validator, positive_float_validator, long_validator, lat_validator, json_validator
-from ckanext.taijiang.logic.converters import remove_blank_wrap
+from ckanext.taijiang.logic.converters import remove_blank_wrap, checkbox_value
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +71,15 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
            'book_year': [_ignore_missing, _convert_to_extras],
            'book_query': [_ignore_missing, _convert_to_extras],
            'book_url': [_ignore_missing, _convert_to_extras],
-           'book_his_material': [_ignore_missing, _convert_to_extras],
+           'book_from_local_chronicles_in_qing_dynasty': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_japan_officials': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_officials_in_postwar_period': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_inscriptions': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_newspapers': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_maps': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_taiwanese_governor_office_files': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_dutch_formosa': [_ignore_missing, checkbox_value, _convert_to_extras],
+           'book_from_field_researches': [_ignore_missing, checkbox_value, _convert_to_extras],
            'book_area_village': [_ignore_missing, _convert_to_extras],
            'book_area_religion': [_ignore_missing, _convert_to_extras],
            'book_area_family': [_ignore_missing, _convert_to_extras],
@@ -205,7 +213,15 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
             'book_year': [_ignore_missing, _convert_from_extras],
             'book_query': [_ignore_missing, _convert_from_extras],
             'book_url': [_ignore_missing, _convert_from_extras],
-            'book_his_material': [_ignore_missing, _convert_from_extras],
+            'book_from_local_chronicles_in_qing_dynasty': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_japan_officials': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_officials_in_postwar_period': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_inscriptions': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_newspapers': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_maps': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_taiwanese_governor_office_files': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_dutch_formosa': [_ignore_missing, checkbox_value, _convert_from_extras],
+            'book_from_field_researches': [_ignore_missing, checkbox_value, _convert_from_extras],
             'book_area_village': [_ignore_missing, _convert_from_extras],
             'book_area_religion': [_ignore_missing, _convert_from_extras],
             'book_area_family': [_ignore_missing, _convert_from_extras],
@@ -247,7 +263,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'get_loc_keyword',
 	    'get_temp_res',
 	    'get_proj',
-            'get_his_material',
 	    'extras_to_dict',
         )
         return _get_module_functions(taijiang_helpers, function_names)

@@ -1,0 +1,10 @@
+{% macro checkbox(name, id='', label='', value='', checked=false, placeholder='', error="", classes=[], is_required=false) %}
+  {%- set extra_html = caller() if caller -%}
+  <div class="controls">
+  <input id="{{ id or name }}" type="checkbox" name="{{ name }}" value="{{ value | empty_and_escape }}" {{ "checked " if checked }}/>
+  {{ label or name }}
+  {% if is_required %}{{ input_required() }}{% endif %}
+  {% if error and error is iterable %}<strong class="error-inline">{{ error|join(', ') }}</strong>{% endif %}
+  </div>
+  {{ extra_html }}
+{% endmacro %}

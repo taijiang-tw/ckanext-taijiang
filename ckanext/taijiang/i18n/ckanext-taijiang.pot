@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-taijiang 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-28 00:19+0800\n"
+"POT-Creation-Date: 2014-08-31 08:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -394,37 +394,37 @@ msgstr ""
 msgid "Book Query"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:82
-#: ckanext/taijiang/templates/snippets/hist_material_list.html:3
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:111
+#: ckanext/taijiang/templates/snippets/hist_material.html:4
 msgid "Historical Material"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:89
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:118
 #: ckanext/taijiang/templates/snippets/extended_fields.html:16
 msgid "Village of Research Area"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:96
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:125
 #: ckanext/taijiang/templates/snippets/extended_fields.html:17
 msgid "Religion of Research Area"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:103
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:132
 #: ckanext/taijiang/templates/snippets/extended_fields.html:18
 msgid "Family of Research Area"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:110
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:139
 #: ckanext/taijiang/templates/snippets/extended_fields.html:19
 msgid "Reservoir of Research Area"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:117
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:146
 #: ckanext/taijiang/templates/snippets/extended_fields.html:20
 msgid "Industry of Research Area"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:124
+#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:153
 #: ckanext/taijiang/templates/snippets/extended_fields.html:21
 msgid "Notes"
 msgstr ""
@@ -519,6 +519,42 @@ msgstr ""
 
 #: ckanext/taijiang/templates/snippets/extended_fields.html:41
 msgid "以文字描述資料形成所經過之處理過程，建議以各階段或步驟為導向進行填寫"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:5
+msgid "清代方志"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:6
+msgid "日治出版品與官方資料"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:7
+msgid "戰後官方資料與鄉鎮志"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:8
+msgid "碑文"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:9
+msgid "報紙"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:10
+msgid "地圖"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:11
+msgid "台灣總督府檔案（公文類纂、府報、調查報告、職員錄、衛生法規）"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:12
+msgid "荷治時期檔案"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/hist_material.html:13
+msgid "地方田野收集文獻（族譜、寺廟志、帳冊、契約）"
 msgstr ""
 
 #: ckanext/taijiang/templates/snippets/language_selector.html:18

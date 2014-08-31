@@ -30,9 +30,6 @@ def get_temp_res():
 def get_proj():
    return lists.PROJS
 
-def get_his_material():
-   return lists.HIS_MATERIALS
-
 def extras_to_dict(pkg):
    extras_dict = {}
    if pkg and 'extras' in pkg:
