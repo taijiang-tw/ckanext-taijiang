@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-taijiang 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-08-31 08:39+0800\n"
+"POT-Creation-Date: 2014-09-01 11:52+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,15 @@ msgstr ""
 msgid "Project Site"
 msgstr ""
 
-#: ckanext/taijiang/templates/footer.html:10
-msgid "CKAN API"
+#: ckanext/taijiang/templates/footer.html:6
+msgid "Contact us"
 msgstr ""
 
 #: ckanext/taijiang/templates/footer.html:11
+msgid "CKAN API"
+msgstr ""
+
+#: ckanext/taijiang/templates/footer.html:12
 msgid "Open Knowledge Foundation"
 msgstr ""
 
