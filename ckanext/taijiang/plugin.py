@@ -1,7 +1,5 @@
 import logging
 
-# Bad imports: this should be in the toolkit
-
 from ckan.lib.plugins import DefaultGroupForm
 import ckan.plugins as p
 from datetime import datetime as date_parse
@@ -97,9 +95,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	   'spatial_res': [_ignore_missing, positive_float_validator, _convert_to_extras],
 	   'scale': [_ignore_missing, positive_integer_validator, _convert_to_extras],
 	   'preprocessing': [_ignore_missing, _convert_to_extras],
-	   #'wave_band_min': [_ignore_missing, float_validator, _convert_to_extras],
-	   #'wave_band_max': [_ignore_missing, float_validator, _convert_to_extras],
-	   #'wave_band_bit': [_ignore_missing, positive_float_validator, _convert_to_extras],
         })
 
         return schema
@@ -145,22 +140,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
                             data_dict[time_type] = str(int(data_dict[time_type]) - res)
                 except ValueError:
                     raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-        '''
-        if ('x_min' in data_dict and 'x_max' in data_dict and 'y_min' in data_dict and 'y_max' in data_dict):
-	    if (data_dict['x_min'] != "" and data_dict['x_max'] != "" and data_dict['y_min'] != "" and data_dict['y_max'] != ""):
-	        data_dict['spatial'] = "{\"type\": \"Polygon\",\"coordinates\": [[[" +\
-	               data_dict['x_min'] + "," +\
-		       data_dict['y_min'] + "],[" +\
-		       data_dict['x_min'] + "," +\
-		       data_dict['y_max'] + "],[" +\
-		       data_dict['x_max'] + "," +\
-		       data_dict['y_max'] + "],[" +\
-		       data_dict['x_max'] + "," +\
-		       data_dict['y_min'] + "],[" +\
-		       data_dict['x_min'] + "," +\
-		       data_dict['y_min'] + "]]]}"
-	        #print data_dict['spatial']
-        '''
         return p.toolkit.navl_validate(data_dict, schema, context)
 
     def create_package_schema(self):
@@ -239,9 +218,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'spatial_res': [_ignore_missing, positive_float_validator, _convert_from_extras],
 	    'scale': [_ignore_missing, positive_integer_validator, _convert_from_extras],
 	    'preprocessing': [_ignore_missing, _convert_from_extras],
-	    #'wave_band_min': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
-	    #'wave_band_max': [_ignore_missing, float_validator, _ignore_empty, _convert_from_extras],
-	    #'wave_band_bit': [_ignore_missing, positive_float_validator, _ignore_empty, _convert_from_extras],
         })
 
         return schema
