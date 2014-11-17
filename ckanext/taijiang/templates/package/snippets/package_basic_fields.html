@@ -133,7 +133,9 @@
 
 {% block package_theme_fields %}
   <legend><h2> {{ _('Keywords') }} </h2></legend>
-  {% snippet 'snippets/theme_keyword.html', data=extras_dict, field_name='theme_keyword' %}
+  {% for i in range(5) %}
+    {% snippet 'snippets/theme_keyword.html', data=extras_dict, field_name='theme_keyword_'+(i+1)|string, display_name = _("Theme Keyword")+' '+(i+1)|string %}
+  {% endfor %} 
 {% endblock %}
 
 {% block package_spatial_fields %}

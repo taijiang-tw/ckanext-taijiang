@@ -1,12 +1,10 @@
-{% for i in range(5) %}
-  <div class="control-group">
-    <label class="control-label" for="field-theme-keyword">{{ _("Theme Keyword") }} {{ i+1 }}</label>
-    <div class="controls">
-      <select id="field-theme-keyword-{{ i+1 }}" name="theme-keyword-{{ i+1 }}" data-module="autocomplete">
-        {% for value, label in h.get_theme_keywords() %}
-          <option value="{{ value }}"{% if data.get(field_name+'_'+(i+1)|string) == value %} selected="selected"{% endif %}>{{ label }}</option>
-        {% endfor %}
-      </select>
-    </div>
+<div class="control-group">
+  <label class="control-label" for="field-{{ field_name }}">{{ display_name }}</label>
+  <div class="controls">
+    <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
+      {% for value, label in h.get_theme_keywords() %}
+        <option value="{{ value }}"{% if data.get(field_name) == value %} selected="selected"{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
   </div>
-{% endfor %}
+</div>
