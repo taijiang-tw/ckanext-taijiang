@@ -11,6 +11,7 @@ Prerequirements
 
 - CKAN: https://github.com/ckan/ckan
 - ckanext-spatial: https://github.com/ckan/ckanext-spatial
+- geomet: https://github.com/geomet/geomet
 
 
 Install

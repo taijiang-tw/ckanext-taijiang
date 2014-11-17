@@ -56,8 +56,8 @@
     <dct:language>${ extra_dict.get('language') }</dct:language>
     <dct:temporal>
       <dct:PeriodOfTime>
-        <schema:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${ h.date_to_iso(extra_dict.get('start_time'), extra_dict.get('temp_res')) }</schema:startDate>
-        <schema:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${ h.date_to_iso(extra_dict.get('end_time'), extra_dict.get('temp_res')) }</schema:endDate>
+        <schema:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${ extra_dict.get('start_time') }</schema:startDate>
+        <schema:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">${ extra_dict.get('end_time') }</schema:endDate>
       </dct:PeriodOfTime>
     </dct:temporal>
     <dct:references py:if="extra_dict.get('book_journal')">

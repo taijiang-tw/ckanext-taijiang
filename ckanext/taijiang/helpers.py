@@ -1,5 +1,7 @@
 from pylons import config
 
+from geomet import wkt
+import json
 import ckan.model as model # get_licenses should be in core
 
 import ckan.plugins as p
@@ -36,3 +38,6 @@ def extras_to_dict(pkg):
        for extra in pkg['extras']:
             extras_dict[extra['key']] = extra['value']
    return extras_dict
+
+def geojson_to_wkt(value):
+   return wkt.dumps(json.loads(value))

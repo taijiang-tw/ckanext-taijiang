@@ -240,6 +240,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'get_temp_res',
 	    'get_proj',
 	    'extras_to_dict',
+	    'geojson_to_wkt',
         )
         return _get_module_functions(taijiang_helpers, function_names)
 
