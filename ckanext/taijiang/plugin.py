@@ -17,6 +17,8 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
     p.implements(p.IDatasetForm, inherit=True)
     p.implements(p.IConfigurer)
     p.implements(p.ITemplateHelpers)
+    p.implements(p.IPackageController, inherit=True)
+    p.implements(p.IFacets)
 
 
     ## IDatasetForm
@@ -221,12 +223,74 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         })
 
         return schema
-    
+
+    ## IConfigurer
     def update_config(self, config):
-        
-       p.toolkit.add_template_directory(config, 'templates')
-       p.toolkit.add_public_directory(config, 'public')
-       p.toolkit.add_resource('fanstatic', 'ckanext-taijiang')
+        p.toolkit.add_template_directory(config, 'templates')
+        p.toolkit.add_public_directory(config, 'public')
+        p.toolkit.add_resource('fanstatic', 'ckanext-taijiang')
+
+    ## IPackageController
+    def before_index(self, data_dict):
+        data_dict.update({'data_type_facet': '', 'proj_facet': '', 'language_facet': '',
+                'encoding_facet': '', 'theme_keyword_facets': [], 'loc_keyword_facet': ''})
+        for data_type_def in taijiang_helpers.get_data_types():
+            if data_type_def[0] == data_dict['data_type']:
+                data_dict['data_type_facet'] = data_type_def[1]
+        for proj_def in taijiang_helpers.get_proj():
+            if proj_def[0] == data_dict['proj']:
+                data_dict['proj_facet'] = proj_def[1]
+        for language_def in taijiang_helpers.get_languages():
+            if language_def[0] == data_dict['language']:
+                data_dict['language_facet'] = language_def[1]
+        for encoding_def in taijiang_helpers.get_encodings():
+            if encoding_def[0] == data_dict['encoding']:
+                data_dict['encoding_facet'] = encoding_def[1]
+        for theme_keyword_def in taijiang_helpers.get_theme_keywords():
+            if data_dict.get('theme_keyword_1'):
+                if theme_keyword_def[0] == data_dict['theme_keyword_1']:
+                    data_dict['theme_keyword_facets'].append(theme_keyword_def[1])
+            if data_dict.get('theme_keyword_2'):
+                if theme_keyword_def[0] == data_dict['theme_keyword_2']:
+                    data_dict['theme_keyword_facets'].append(theme_keyword_def[1])
+            if data_dict.get('theme_keyword_3'):
+                if theme_keyword_def[0] == data_dict['theme_keyword_3']:
+                    data_dict['theme_keyword_facets'].append(theme_keyword_def[1])
+            if data_dict.get('theme_keyword_4'):
+                if theme_keyword_def[0] == data_dict['theme_keyword_4']:
+                    data_dict['theme_keyword_facets'].append(theme_keyword_def[1])
+            if data_dict.get('theme_keyword_5'):
+                if theme_keyword_def[0] == data_dict['theme_keyword_5']:
+                    data_dict['theme_keyword_facets'].append(theme_keyword_def[1])
+        for loc_keyword_def in taijiang_helpers.get_loc_keyword():
+            if loc_keyword_def[0] == data_dict['loc_keyword']:
+                data_dict['loc_keyword_facet'] = loc_keyword_def[1]
+
+        return data_dict
+
+    ## IFacets
+    def dataset_facets(self, facets_dict, package_type):
+        facets_dict['data_type_facet'] = p.toolkit._('Data Type')
+        facets_dict['proj_facet'] = p.toolkit._('Project')
+        facets_dict['language_facet'] = p.toolkit._('Language')
+        facets_dict['encoding_facet'] = p.toolkit._('Encoding')
+        facets_dict['theme_keyword_facets'] = p.toolkit._('Theme Keyword')
+        facets_dict['loc_keyword_facet'] = p.toolkit._('Spatial Keyword')
+
+        return facets_dict
+
+    def group_facets(self, facets_dict, group_type, package_type):
+        return facets_dict
+
+    def organization_facets(self, facets_dict, organization_type, package_type):
+        facets_dict['data_type_facet'] = p.toolkit._('Data Type')
+        facets_dict['proj_facet'] = p.toolkit._('Project')
+        facets_dict['language_facet'] = p.toolkit._('Language')
+        facets_dict['encoding_facet'] = p.toolkit._('Encoding')
+        facets_dict['theme_keyword_facets'] = p.toolkit._('Theme Keyword')
+        facets_dict['loc_keyword_facet'] = p.toolkit._('Spatial Keyword')
+
+        return facets_dict
 
     ## ITemplateHelpers
     def get_helpers(self):
