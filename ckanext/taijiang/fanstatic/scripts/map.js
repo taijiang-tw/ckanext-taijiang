@@ -1,7 +1,20 @@
-var map = L.mapbox.map('map', 'u10313335.j31lbogb')
-    .setView([23.58, 120.58], 7);
+// add a MapQuest tile layer
+var mq = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
+  attribution: 'Map data &copy; OpenStreetMap contributors, Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="//developer.mapquest.com/content/osm/mq_logo.png">',
+  subdomains: '1234'
+});
+// add a Google Maps tile layer
+var ggl = new L.Google('ROADMAP');
+var map = L.map('map', {
+  center: [23.04, 120.18],
+  zoom: 11,
+});
+// add MapQuest (default tile layer)
+map.addLayer(mq);
+// add layer control
+map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl}));
 
-var featureGroup = L.featureGroup().addTo(map);
+featureGroup = L.featureGroup().addTo(map);
 
 var drawControl = new L.Control.Draw({
   draw: {
@@ -21,6 +34,7 @@ function showPolygonAreaEdited(e) {
     showPolygonArea({ layer: layer });
   });
 }
+
 function showPolygonArea(e) {
   var geo = e.layer.toGeoJSON().geometry['coordinates'];
   var longs = [];
@@ -33,10 +47,14 @@ function showPolygonArea(e) {
   featureGroup.clearLayers();
   featureGroup.addLayer(e.layer);
 }
+
 if ($('#field-spatial').val() != '') {
   var geojson = jQuery.parseJSON($('#field-spatial').val());
-  L.geoJson(geojson, { style: L.mapbox.simplestyle.style }).addTo(map);
+  L.geoJson(geojson, {style: function (feature) {
+        return {color: feature.properties.color};
+  }}).addTo(map);
 }
+
 $('#map').hide();
 $(document).ready(function(){
   $('#show_map').click(function(){
@@ -57,25 +75,3 @@ $(document).ready(function(){
     }
   });
 });
-var all_fields = ['#book-fields', '#scanned-image-fields', '#spatial-type-fields']
-var need_book_fields = ['books'];
-var need_scanned_image_fields = ['pics_non_spatial', 'pics_spatial'];
-var need_spatial_fields = ['pics_spatial', 'grid', 'vector', 'tin', 'steropair'];
-var sel_data_type = $('#field-data_type').val();
-function show_fields(value) {
-  var fields_toggle = [false, false, false];
-  if ($.inArray(value, need_book_fields) != -1) {
-    fields_toggle[0] = true;
-  }
-  if ($.inArray(value, need_scanned_image_fields) != -1) {
-    fields_toggle[1] = true;
-  }
-  if ($.inArray(value, need_spatial_fields) != -1) {
-    fields_toggle[2] = true;
-  }
-  $.each(all_fields, function(index, value) {
-    if (fields_toggle[index]) {$(value).show();} else {$(value).hide();}
-  });
-}
-$(function () {show_fields(sel_data_type)});
-$('#field-data_type').on('select2-selecting', function(e) {show_fields(e.val)});

@@ -1,6 +1,7 @@
 !function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.LGeo=e():"undefined"!=typeof global?global.LGeo=e():"undefined"!=typeof self&&(self.LGeo=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var spherical = require('spherical'),
-    geojsonArea = require('geojson-area');
+    geojsonArea = require('geojson-area'),
+    wgs84 = require('wgs84');
 
 module.exports.circle = function(center, radius, opt) {
     center = L.latLng(center);
@@ -9,11 +10,29 @@ module.exports.circle = function(center, radius, opt) {
 
     function generate(center) {
         var lls = [];
+        var angularRadius = radius / wgs84.RADIUS * 180 / Math.PI;
+
         for (var i = 0; i < parts + 1; i++) {
             lls.push(spherical.radial(
                 [center.lng, center.lat],
                 (i / parts) * 360, radius).reverse());
         }
+
+        if (angularRadius > (90 - center.lat)) {
+            lls.push([lls[0][0], center.lng + 180],
+                [90, center.lng + 180],
+                [90, center.lng - 180],
+                [lls[0][0], center.lng - 180]);
+        }
+
+        if (angularRadius > (90 + center.lat)) {
+            lls.splice((parts >> 1) + 1, 0,
+                [lls[(parts>>1)][0], center.lng-180 ],
+                [-90, center.lng-180],
+                [-90, center.lng+180],
+                [lls[(parts >> 1)][0], center.lng+180 ]);
+        }
+
         return lls;
     }
 
@@ -43,7 +62,7 @@ module.exports.area = function(layer) {
     return geojsonArea(gj.geometry);
 };
 
-},{"geojson-area":2,"spherical":4}],2:[function(require,module,exports){
+},{"geojson-area":2,"spherical":4,"wgs84":6}],2:[function(require,module,exports){
 var wgs84 = require('wgs84');
 
 module.exports = function(_) {
@@ -128,7 +147,7 @@ module.exports.distance = function(from, to) {
     return 2 * wgs84.RADIUS * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
-module.exports.radial = function(from, tc_deg, d_m) {
+module.exports.radial = function(from, tc_deg, d_m, wrap) {
     var tc = rad(tc_deg);
     var d = d_m / wgs84.RADIUS;
 
@@ -150,8 +169,13 @@ module.exports.radial = function(from, tc_deg, d_m) {
         Math.sin(lat1) *
         Math.sin(lat));
 
-    var lon = (lon1 - dlon + Math.PI) %
-        (2 * Math.PI) - Math.PI;
+    var lon;
+    if (wrap) {
+        lon = (lon1 - dlon + Math.PI) %
+            (2 * Math.PI) - Math.PI;
+    } else {
+        lon = (lon1 - dlon + Math.PI) - Math.PI;
+    }
 
     return [deg(lon), deg(lat)];
 };
@@ -165,6 +189,8 @@ function deg(_) {
 }
 
 },{"wgs84":5}],5:[function(require,module,exports){
+module.exports=require(3)
+},{}],6:[function(require,module,exports){
 module.exports=require(3)
 },{}]},{},[1])
 (1)
