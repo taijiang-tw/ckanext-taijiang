@@ -8,6 +8,7 @@ var ggl = new L.Google('ROADMAP');
 var map = L.map('map', {
   center: [23.04, 120.18],
   zoom: 11,
+  maxZoom: 18
 });
 // add MapQuest (default tile layer)
 map.addLayer(mq);
@@ -48,14 +49,19 @@ function showPolygonArea(e) {
   featureGroup.addLayer(e.layer);
 }
 
+$('#map').hide();
 if ($('#field-spatial').val() != '') {
   var geojson = jQuery.parseJSON($('#field-spatial').val());
-  L.geoJson(geojson, {style: function (feature) {
-        return {color: feature.properties.color};
+  var extentLayer = L.geoJson(geojson, {style: function (feature) {
+    return {color: feature.properties.color};
   }}).addTo(map);
+  if (geojson.type == 'Point') {
+    map.setView(L.latLng(geojson.coordinates[1], geojson.coordinates[0]), 9);
+  } else {
+    map.fitBounds(extentLayer.getBounds());
+  }
+  $('#map').show();
 }
-
-$('#map').hide();
 $(document).ready(function(){
   $('#show_map').click(function(){
     $('#map').toggle();
