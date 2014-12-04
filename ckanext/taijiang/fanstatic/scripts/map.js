@@ -10,10 +10,14 @@ var map = L.map('map', {
   zoom: 11,
   maxZoom: 18
 });
+// add a NLSC tile layer
+var nlsc = L.tileLayer('http://maps.nlsc.gov.tw/S_Maps/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=EMAP&STYLE=_null&TILEMATRIXSET=EPSG:3857&TILEMATRIX=EPSG:3857:{z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png', {
+  attribution: '內政部國土測繪中心'
+});
 // add MapQuest (default tile layer)
 map.addLayer(mq);
 // add layer control
-map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl}));
+map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl, "通用版電子地圖": nlsc}));
 
 featureGroup = L.featureGroup().addTo(map);
 
