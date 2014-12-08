@@ -104,8 +104,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
     def validate(self, context, data_dict, schema, action):
         if 'temp_res' in data_dict:
             temp_res = data_dict['temp_res']
-#            if (temp_res == ''):
-#                return p.toolkit.navl_validate(data_dict, schema, context)
             if (temp_res == u'date'):
                 try:
 	            date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
