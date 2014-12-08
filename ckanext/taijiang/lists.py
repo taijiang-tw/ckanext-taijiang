@@ -238,6 +238,7 @@ LOC_KEYWORDS = [
    ("110", u"關帝廟"),
 ]
 TEMP_RES = [
+   ("", u"未選取"),
    ("year", u"年"),
    ("decade", u"十年"),
    ("century", u"一百年"),

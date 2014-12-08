@@ -109,7 +109,7 @@
       <i class="icon-info-sign"></i>
       {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
     </span>
-    {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=extras_dict.get('start_time'), error=errors.start_time, is_required=true) }}
+    {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=extras_dict.get('start_time'), error=errors.start_time) }}
   </div>
 
   <div class="control-group">
@@ -117,7 +117,7 @@
       <i class="icon-info-sign"></i>
       {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
     </span>
-    {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=extras_dict.get('end_time'), error=errors.end_time, is_required=true) }}
+    {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=extras_dict.get('end_time'), error=errors.end_time) }}
   </div>
 {% endblock %}
 

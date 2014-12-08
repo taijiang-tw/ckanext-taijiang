@@ -87,7 +87,10 @@
     </tbody>
   </table>
 
-  {% snippet 'package/snippets/package_temporal_fields.html', data=extras_dict %}
+  {% if extras_dict.get('temp_res') %}
+    {% snippet 'package/snippets/package_temporal_fields.html', data=extras_dict %}
+  {% endif %}
+
   {% snippet 'package/snippets/package_contact_fields.html', data=extras_dict %}
 
   {% if extras_dict.get('theme_keyword_1') or extras_dict.get('theme_keyword_2') or extras_dict.get('theme_keyword_3') or extras_dict.get('theme_keyword_4') or extras_dict.get('theme_keyword_5') %}

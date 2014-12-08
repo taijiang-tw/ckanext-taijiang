@@ -45,8 +45,8 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	   'language': [_ignore_missing, _convert_to_extras],
 	   'encoding': [_ignore_missing, _convert_to_extras],
 	   'temp_res': [_ignore_missing, _convert_to_extras],
-	   'start_time': [not_empty, _ignore_missing, _convert_to_extras],
-	   'end_time': [not_empty, _ignore_missing, _convert_to_extras],
+	   'start_time': [_ignore_missing, _convert_to_extras],
+	   'end_time': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_1': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_2': [_ignore_missing, _convert_to_extras],
 	   'theme_keyword_3': [_ignore_missing, _convert_to_extras],
@@ -104,6 +104,8 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
     def validate(self, context, data_dict, schema, action):
         if 'temp_res' in data_dict:
             temp_res = data_dict['temp_res']
+#            if (temp_res == ''):
+#                return p.toolkit.navl_validate(data_dict, schema, context)
             if (temp_res == u'date'):
                 try:
 	            date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
