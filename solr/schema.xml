@@ -135,6 +135,7 @@
     <field name="_version_" type="string" indexed="true" stored="true"/>
 
     <dynamicField name="*_date" type="date" indexed="true" stored="true" multiValued="false"/>
+    <dynamicField name="*_time" type="date" indexed="true" stored="true" multiValued="false"/>
 
     <dynamicField name="extras_*" type="text" indexed="true" stored="true" multiValued="false"/>
     <dynamicField name="res_extras_*" type="text" indexed="true" stored="true" multiValued="true"/>

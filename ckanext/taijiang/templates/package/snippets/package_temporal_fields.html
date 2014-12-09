@@ -10,14 +10,14 @@
     {% if data.get('start_time') %}
       <tr>
         <th scope="row" class="dataset-label" property="rdfs:label">{{ _("Start Time")}}</th>
-        <td class="dataset-details" property="rdf:value">{{ data.get('start_time') }}</td>
+        <td class="dataset-details" property="rdf:value">{{ h.date_to_iso(data.get('start_time'), data.get('temp_res')) }}</td>
       </tr>
     {% endif %}
 
     {% if data.get('end_time') %}
       <tr>
         <th scope="row" class="dataset-label" property="rdfs:label">{{ _("End Time")}}</th>
-        <td class="dataset-details" property="rdf:value">{{ data.get('end_time') }}</td>
+        <td class="dataset-details" property="rdf:value">{{ h.date_to_iso(data.get('end_time'), data.get('temp_res')) }}</td>
       </tr>
     {% endif %}
   </tbody>

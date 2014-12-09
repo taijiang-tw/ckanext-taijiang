@@ -102,6 +102,7 @@
 
 {% block package_temporal_fields %}
   <legend><h2> {{ _('Temporal Information') }} </h2></legend>
+  {% snippet 'snippets/time_period_list.html', field_name='time_period' %}
   {% snippet 'snippets/temp_res_list.html', data=extras_dict, errors=errors, field_name='temp_res' %}
 
   <div class="control-group">
@@ -109,7 +110,11 @@
       <i class="icon-info-sign"></i>
       {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
     </span>
-    {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=extras_dict.get('start_time'), error=errors.start_time) }}
+    {% set start_time = extras_dict.get('start_time') %}
+    {% if start_time != None %}
+      {% set start_time = h.date_to_iso(start_time, extras_dict.get('temp_res')) %}
+    {% endif %}
+    {{ form.input('start_time', id='field-start-time', label=_('Start Time'), value=start_time, error=errors.start_time) }}
   </div>
 
   <div class="control-group">
@@ -117,7 +122,11 @@
       <i class="icon-info-sign"></i>
       {% trans %}Depend on the temporal resolution setting. Acceptable formats: 'YYYY', 'YYYY-MM', or 'YYYY-MM-DD'.{% endtrans %}
     </span>
-    {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=extras_dict.get('end_time'), error=errors.end_time) }}
+    {% set end_time = extras_dict.get('end_time') %}
+    {% if end_time != None %}
+      {% set end_time = h.date_to_iso(end_time, extras_dict.get('temp_res')) %}
+    {% endif %}
+    {{ form.input('end_time', id='field-end-time', label=_('End Time'), value=end_time, error=errors.end_time) }}
   </div>
 {% endblock %}
 

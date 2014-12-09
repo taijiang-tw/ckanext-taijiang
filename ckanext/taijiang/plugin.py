@@ -3,6 +3,7 @@ import logging
 from ckan.lib.plugins import DefaultGroupForm
 import ckan.plugins as p
 from datetime import datetime as date_parse
+import json
 import ckanext.taijiang.helpers as taijiang_helpers
 from ckan.lib.navl.dictization_functions import Invalid
 from ckan.logic import ValidationError
@@ -102,46 +103,29 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         return schema
     
     def validate(self, context, data_dict, schema, action):
-        if 'temp_res' in data_dict:
-            temp_res = data_dict['temp_res']
-            if (temp_res == u'date'):
-                try:
-	            date_parse.strptime(data_dict['start_time'], '%Y-%m-%d')
-		    date_parse.strptime(data_dict['end_time'], '%Y-%m-%d')
-	        except ValueError:
-	            raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY-MM-DD"]})
-	    if (temp_res == u'month'):
-                try:
-                    date_parse.strptime(data_dict['start_time'], '%Y-%m')
-		    date_parse.strptime(data_dict['end_time'], '%Y-%m')
-                except ValueError:
-	            raise ValidationError({"Time Format Error": ["Incorrect data format, should be YYYY-MM"]})
-            if (temp_res == u'year'):
-                try:
-                    date_parse.strptime(data_dict['start_time'], '%Y')
-                    date_parse.strptime(data_dict['end_time'], '%Y')
-                except ValueError:
-                    raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-            if (temp_res == u'decade'):
-                try:
-                    date_parse.strptime(data_dict['start_time'], '%Y')
-                    date_parse.strptime(data_dict['end_time'], '%Y')
-	            for time_type in ['start_time', 'end_time']:
-		        res = int(data_dict[time_type])%10
-		        if (res != 0):
-		            data_dict[time_type] = str(int(data_dict[time_type]) - res)
-                except ValueError:
-	            raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
-            if (temp_res == u'century'):
-                try:
-                    date_parse.strptime(data_dict['start_time'], '%Y')
-                    date_parse.strptime(data_dict['end_time'], '%Y')
+        time_format = { u'date': ['%Y-%m-%d', 'YYYY-MM-DD'],
+                u'month': ['%Y-%m', 'YYYY-MM'],
+                u'year': ['%Y', 'YYYY'],
+                u'decade': ['%Y', 'YYYY', 10],
+                u'century': ['%Y', 'YYYY', 100] }
+        temp_res = data_dict.get('temp_res', '')
+        if temp_res:
+            try:
+                if (temp_res == u'decade' or temp_res == u'century'):
                     for time_type in ['start_time', 'end_time']:
-                        res = int(data_dict[time_type])%100
+                        res = int(data_dict[time_type])%time_format[temp_res][2]
                         if (res != 0):
                             data_dict[time_type] = str(int(data_dict[time_type]) - res)
-                except ValueError:
-                    raise ValidationError({"Time format Error": ["Incorrect data format, should be YYYY"]})
+
+                data_dict['start_time'] = date_parse.strptime(data_dict['start_time'],
+                        time_format[temp_res][0])
+                data_dict['end_time'] = date_parse.strptime(data_dict['end_time'],
+                        time_format[temp_res][0])
+            except ValueError:
+                raise ValidationError({"Time format Error":
+                    ["Incorrect data format, should be %s" % time_format[temp_res][1]]})
+            data_dict['start_time'] = data_dict['start_time'].isoformat() + "Z"
+            data_dict['end_time'] = data_dict['end_time'].isoformat() + "Z"
         return p.toolkit.navl_validate(data_dict, schema, context)
 
     def create_package_schema(self):
@@ -231,6 +215,37 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         p.toolkit.add_resource('fanstatic', 'ckanext-taijiang')
 
     ## IPackageController
+    def before_search(self, search_params):
+        def parse_date(date_string):
+            '''
+            Parse a date string or throw a nice error into the log. Re-raises
+            the error for the plugin to catch.
+            '''
+            try:
+                return date_parse.strptime(date_string, '%Y-%m-%d')
+            except ValueError as e:
+                log.debug('Date {0} not in the right format. Needs to be YYYY'
+                        '-MM-DD'.format(date_string))
+                raise e
+
+        if (search_params.get('extras', None) and 'ext_begin_date' in
+                search_params['extras'] and 'ext_end_date' in
+                search_params['extras']):
+            try:
+                begin = parse_date(search_params['extras']['ext_begin_date'])
+                end = parse_date(search_params['extras']['ext_end_date'])
+            except ValueError:
+                return search_params
+            # Adding 'Z' manually here is evil, but we do this in core too.
+            query = ("(start_time: [* TO {0}Z] AND "
+                     "end_time: [{0}Z TO *]) OR "
+                     "(start_time: [{0}Z TO {1}Z] AND "
+                     "end_time: [{0}Z TO *])")
+            query = query.format(begin.isoformat(), end.isoformat())
+            search_params['q'] = query
+
+        return search_params
+
     def before_index(self, data_dict):
         data_dict.update({'data_type_facet': '', 'proj_facet': '', 'language_facet': '',
                 'encoding_facet': '', 'theme_keyword_facets': [], 'loc_keyword_facet': ''})
@@ -270,6 +285,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 
     ## IFacets
     def dataset_facets(self, facets_dict, package_type):
+        facets_dict['date_facet'] = p.toolkit._('Date of Dataset')
         facets_dict['data_type_facet'] = p.toolkit._('Data Type')
         facets_dict['proj_facet'] = p.toolkit._('Project')
         facets_dict['language_facet'] = p.toolkit._('Language')
@@ -306,6 +322,10 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'extras_to_dict',
 	    'geojson_to_wkt',
             'get_newsfeed',
+            'get_time_period',
+            'date_to_iso',
+            'get_default_slider_values',
+            'get_date_url_param',
         )
         return _get_module_functions(taijiang_helpers, function_names)
 

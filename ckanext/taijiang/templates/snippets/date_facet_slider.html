@@ -1,0 +1,29 @@
+{#
+Displays a slider widget to define a date filter on the dataset search page sidebar
+#}
+{% set date_range = h.get_default_slider_values() %}
+{% set default_dates = h.get_date_url_param() %}
+
+<section class="module module-narrow module-shallow js-hide" data-module="date-facet" data-module-begin="{{ date_range[0] }}" data-module-end="{{ date_range[1] }}" data-module-default_begin="{{ default_dates[0] }}" data-module-default_end="{{ default_dates[1] }}">
+  <h2 class="module-heading">
+    {{ _('Temporal Information') }}
+    <a href="{{ h.remove_url_param(['ext_begin_date', 'ext_end_date']) }}" class="action">
+      {{ _('Clear') }}
+    </a>
+  </h2>
+  <input type="text" name="begin" id="field-start-time" placeholder="{{ _('Start Time') }} (YYYY-MM-DD)" value="{{ default_dates[0] }}" />
+  <input type="text" name="end" id="field-end-time" placeholder="{{ _('End Time') }} (YYYY-MM-DD)" value="{{ default_dates[1] }}" />
+  <div class="control-group">
+    <select id="field-time-period" name="time-period" data-module="autocomplete">
+      {% for label, start, end in h.get_time_period() %}
+        <option data-start="{{ start }}" data-end="{{ end }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button class="btn">{{ _('Update Search') }}</button>
+</section>
+
+{% resource 'ckanext-taijiang/slider' %}
+{% resource 'ckanext-taijiang/scripts/vendor/jqueryui/css/jquery-ui-1.10.4.custom.css' %}
+{% resource 'ckanext-taijiang/scripts/vendor/jquery-range-slider/css/classic-min.css' %}
+{% resource 'ckanext-taijiang/scripts/facet_time_period.js' %}
