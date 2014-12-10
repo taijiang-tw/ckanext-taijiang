@@ -11,7 +11,6 @@ Prerequirements
 
 - CKAN: https://github.com/ckan/ckan
 - ckanext-spatial: https://github.com/ckan/ckanext-spatial
-- geomet: https://github.com/geomet/geomet
 
 
 Install
@@ -25,6 +24,7 @@ With your virtualenv activated:
    git clone https://github.com/u10313335/ckanext-taijiang.git
    cd ckanext-taijiang
    python setup.py develop
+   pip install -r requirements.txt
 
 Add the following plugin to your CKAN ini file:
 

@@ -305,6 +305,7 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
 	    'get_proj',
 	    'extras_to_dict',
 	    'geojson_to_wkt',
+            'get_newsfeed',
         )
         return _get_module_functions(taijiang_helpers, function_names)
 

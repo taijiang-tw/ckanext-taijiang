@@ -1,0 +1,18 @@
+<div class="box stat">
+  <header class="module-heading">
+  <h2>{{ name }}</h2>
+  </header>
+  <div class="inner">
+    {% if not data %}
+      <p class="empty">{{ _('No latest news.') }}</p>
+    {% else %}
+      {% for entry in data %}
+        <div class="dataset-item">
+          <h3 class="dataset-heading"><a href={{ entry.link }} target="_blank">{{ entry.title }}</a></h3>
+	  <p class="empty">{{ entry.updated_time }}</p>
+	  <p>{{ entry.description }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

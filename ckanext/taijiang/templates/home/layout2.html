@@ -2,10 +2,18 @@
   <div class="container">
     <div class="row row1">
       <div class="span6 col1">
-        {% snippet 'home/snippets/featured_organization.html' %}
+        <section class="module-narrow module-shallow">
+	  {% set ann = h.get_newsfeed(feed_url='http://gis.rchss.sinica.edu.tw/taijiang/archives/category/database-update/feed')|sort(attribute='updated_time', reverse=True) %}
+          {% snippet 'home/snippets/news.html', data=ann, name=_('Announcement') %}
+        </section>
+	<section class="module module-narrow module-shallow">
+	  {% set proj_news = h.get_newsfeed(feed_url='http://gis.rchss.sinica.edu.tw/taijiang/feed')|sort(attribute='updated_time', reverse=True) %}
+	  {% snippet 'home/snippets/news.html', data=proj_news, name=_('Project News') %}
+        </section>
       </div>
       <div class="span6 col2">
-        {% snippet 'home/snippets/promoted.html' %}
+	{% snippet 'home/snippets/promoted.html' %}
+	{% snippet 'home/snippets/featured_organization.html' %}
       </div>
     </div>
   </div>
