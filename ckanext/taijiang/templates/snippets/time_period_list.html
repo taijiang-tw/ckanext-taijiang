@@ -1,5 +1,9 @@
 <div class="control-group">
-  <label class="control-label" for="field-{{ field_name }}">{{ _("Time Period") }}</label>
+  <span class="info-block info-inline">
+    <i class="icon-info-sign"></i>
+    {% trans %}This shortcut provides some historical periods for filling temporal information of the dataset.{% endtrans %}
+  </span>
+  <label class="control-label" for="field-{{ field_name }}">{{ _("Time Period Shortcut") }}</label>
   <div class="controls">
     <select id="field-{{ field_name }}" name="{{ field_name }}" data-module="autocomplete">
       {% for label, start, end in h.get_time_period() %}

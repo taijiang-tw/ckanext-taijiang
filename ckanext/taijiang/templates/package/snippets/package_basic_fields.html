@@ -101,7 +101,7 @@
 {% endblock %}
 
 {% block package_temporal_fields %}
-  <legend><h2> {{ _('Temporal Information') }} </h2></legend>
+  <legend><h2> {{ _('Temporal Information') }} ({{ _('Time Period of Dataset') }})</h2></legend>
   {% snippet 'snippets/time_period_list.html', field_name='time_period' %}
   {% snippet 'snippets/temp_res_list.html', data=extras_dict, errors=errors, field_name='temp_res' %}
 
