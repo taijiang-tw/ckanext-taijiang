@@ -1,5 +1,3 @@
-console.log($('#field-temp_res').val());
-
 if ($('#field-temp_res').val() == '') {
   $('#field-start-time').attr('disabled', true);
   $('#field-end-time').attr('disabled', true);
