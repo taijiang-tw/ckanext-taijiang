@@ -84,7 +84,6 @@ def get_default_slider_values():
       date = filter(lambda x: x['key'] == 'start_time',
             result[0].get('extras', []))
       begin = dateutil.parser.parse(date[0]['value']).isoformat().split('T')[0]
-      print begin
    else:
       begin = datetime.date.today().isoformat()
    
@@ -98,7 +97,6 @@ def get_default_slider_values():
       date = filter(lambda x: x['key'] == 'end_time',
             result[0].get('extras', []))
       end = dateutil.parser.parse(date[0]['value']).isoformat().split('T')[0]
-      print end
    else:
       end = datetime.date.today().isoformat()
    return begin, end
