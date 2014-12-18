@@ -37,7 +37,6 @@ class TaijiangDatasets(p.SingletonPlugin, p.toolkit.DefaultDatasetForm):
         # Import core converters and validators
         _convert_to_extras = p.toolkit.get_converter('convert_to_extras')
         _ignore_missing = p.toolkit.get_validator('ignore_missing')
-	_package_name_validator = p.toolkit.get_validator('package_name_validator')
 
 	schema.update({
 	   'identifier': [_ignore_missing, _convert_to_extras],
