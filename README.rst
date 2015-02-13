@@ -9,8 +9,10 @@ This extension contains the plugin that add functions to `Taijiang Research Data
 Prerequirements
 ----------------
 
-- CKAN: https://github.com/ckan/ckan
-- ckanext-spatial: https://github.com/ckan/ckanext-spatial
+- CKAN (version 2.3 and up): https://github.com/ckan/ckan
+- modified ckanext-spatial: https://github.com/u10313335/ckanext-spatial
+- ckanext-scheming: https://github.com/open-data/ckanext-scheming
+- ckanext-repeating: https://github.com/open-data/ckanext-repeating
 
 
 Install
@@ -30,7 +32,7 @@ Add the following plugin to your CKAN ini file:
 
 ::
 
-   ckan.plugins = ... taijiang_datasets
+   ckan.plugins = ... taijiang_datasets shp_view wmts_view
 
 Then restart your server.
 

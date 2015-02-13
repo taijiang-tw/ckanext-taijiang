@@ -15,6 +15,7 @@ Displays a slider widget to define a date filter on the dataset search page side
   <input type="text" name="begin" id="field-start-time" placeholder="{{ _('Start Time') }} (YYYY-MM-DD)" value="{{ default_dates[0] }}" />
   <input type="text" name="end" id="field-end-time" placeholder="{{ _('End Time') }} (YYYY-MM-DD)" value="{{ default_dates[1] }}" />
   <div class="control-group">
+      <label>{{ _('Or use time period shortcut') }}</label>
     <select id="field-time-period" name="time-period" data-module="autocomplete">
       {% for label, start, end in h.get_time_period() %}
         <option data-start="{{ start }}" data-end="{{ end }}">{{ label }}</option>
@@ -24,7 +25,4 @@ Displays a slider widget to define a date filter on the dataset search page side
   <button class="btn">{{ _('Update Search') }}</button>
 </section>
 
-{% resource 'ckanext-taijiang/slider' %}
-{% resource 'ckanext-taijiang/scripts/vendor/jqueryui/css/jquery-ui-1.10.4.custom.css' %}
-{% resource 'ckanext-taijiang/scripts/vendor/jquery-range-slider/css/classic-min.css' %}
-{% resource 'ckanext-taijiang/scripts/facet_time_period.js' %}
+{% resource 'ckanext-taijiang/date_facet_slider' %}

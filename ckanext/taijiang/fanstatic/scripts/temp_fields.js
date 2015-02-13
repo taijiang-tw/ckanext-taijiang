@@ -1,16 +1,16 @@
 if ($('#field-temp_res').val() == '') {
-  $('#field-start-time').attr('disabled', true);
-  $('#field-end-time').attr('disabled', true);
+  $('#field-start_time').attr('disabled', true);
+  $('#field-end_time').attr('disabled', true);
 }
 
 function control_fields(value) {
-  $('#field-start-time').attr('disabled', false);
-  $('#field-end-time').attr('disabled', false);
+  $('#field-start_time').attr('disabled', false);
+  $('#field-end_time').attr('disabled', false);
   if ($.inArray(value, ['']) == 0) {
-    $('#field-start-time').val('');
-    $('#field-start-time').attr('disabled', true);
-    $('#field-end-time').val('');
-    $('#field-end-time').attr('disabled', true);
+    $('#field-start_time').val('');
+    $('#field-start_time').attr('disabled', true);
+    $('#field-end_time').val('');
+    $('#field-end_time').attr('disabled', true);
   }
 }
-$('#field-temp_res').on('select2-selecting', function(e) {control_fields(e.val)});
+$('#field-temp_res').change(function(e) {control_fields($('#field-temp_res').val())});

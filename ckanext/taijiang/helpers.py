@@ -1,45 +1,14 @@
-from pylons import config
-
+import ckan.plugins as p
+from ckan.common import json
 from geomet import wkt
-import json
 import feedparser
+import re
+import dateutil
 from dateutil import tz
 from time import mktime
-import datetime
-from datetime import datetime as date_parse
-import dateutil
-import ckan.model as model # get_licenses should be in core
+from datetime import date
+from datetime import datetime
 
-import ckan.plugins as p
-import ckan.lib.helpers as helpers
-import ckan.lib.formatters as formatters
-
-import ckanext.taijiang.lists as lists
-
-
-def get_data_types():
-   return lists.DATA_TYPES
-
-def get_languages():
-   return lists.LANGUAGES
-
-def get_encodings():
-   return lists.ENCODINGS
-
-def get_theme_keywords():
-   return lists.THEME_KEYWORDS
-
-def get_loc_keyword():
-   return lists.LOC_KEYWORDS
-
-def get_temp_res():
-   return lists.TEMP_RES
-
-def get_proj():
-   return lists.PROJS
-
-def get_time_period():
-   return lists.TIME_PERIODS
 
 def extras_to_dict(pkg):
    extras_dict = {}
@@ -52,10 +21,12 @@ def geojson_to_wkt(value):
    return wkt.dumps(json.loads(value))
 
 def get_newsfeed(feed_url, truncate=3):
+   import socket
+   socket.setdefaulttimeout(2)
    news_dict = []
    rss_feed = feedparser.parse(feed_url)
    for entry in rss_feed.entries:
-      updated_time = date_parse.fromtimestamp(mktime(entry.updated_parsed))
+      updated_time = datetime.fromtimestamp(mktime(entry.updated_parsed))
       updated_time = updated_time.replace(tzinfo=tz.tzutc())
       updated_time = updated_time.astimezone(tz.tzlocal()).strftime('%Y-%m-%d')
       news_dict.append({'title': entry.title,
@@ -64,13 +35,14 @@ def get_newsfeed(feed_url, truncate=3):
             'updated_time': updated_time})
    return news_dict[:truncate]
 
-def date_to_iso(value, temp_res):
+def date_to_iso(value, temp_res=None):
    result = ''
    result = dateutil.parser.parse(value).isoformat().split('T')[0]
-   if temp_res == u'month':
-      result = result.split('-')[0] + result.split('-')[1]
-   elif temp_res == u'year' or temp_res == u'decade' or temp_res == u'century':
-      result = result.split('-')[0]
+   if temp_res is not None:
+      if temp_res == u'month':
+         result = result.split('-')[0] + '-' + result.split('-')[1]
+      elif temp_res == u'year' or temp_res == u'decade' or temp_res == u'century':
+         result = result.split('-')[0]
    return result
 
 def get_default_slider_values():
@@ -81,11 +53,16 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
-      date = filter(lambda x: x['key'] == 'start_time',
-            result[0].get('extras', []))
-      begin = dateutil.parser.parse(date[0]['value']).isoformat().split('T')[0]
+      if result[0].get('extras', []):
+         #For old schema definition
+         start_time = filter(lambda x: x['key'] == 'start_time',
+               result[0].get('extras', []))
+         begin = dateutil.parser.parse(start_time[0]['value']).isoformat().split('T')[0]
+      else:
+         start_time = result[0].get('start_time')
+         begin = dateutil.parser.parse(start_time).isoformat().split('T')[0]
    else:
-      begin = datetime.date.today().isoformat()
+      begin = date.today().isoformat()
    
    data_dict = {
             'sort': 'end_time desc',
@@ -94,11 +71,16 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
-      date = filter(lambda x: x['key'] == 'end_time',
-            result[0].get('extras', []))
-      end = dateutil.parser.parse(date[0]['value']).isoformat().split('T')[0]
+      if result[0].get('extras', []):
+         #For old schema definition
+         end_time = filter(lambda x: x['key'] == 'end_time',
+               result[0].get('extras', []))
+         end = dateutil.parser.parse(end_time[0]['value']).isoformat().split('T')[0]
+      else:
+         end_time = result[0].get('end_time')
+         end = dateutil.parser.parse(end_time).isoformat().split('T')[0]
    else:
-      end = datetime.date.today().isoformat()
+      end = date.today().isoformat()
    return begin, end
 
 def get_date_url_param():
@@ -111,3 +93,32 @@ def get_date_url_param():
       else:
          continue
    return params
+
+def get_field_choices(dataset_type):
+   from ckanext.scheming import helpers as scheming_helpers
+   schema = scheming_helpers.scheming_get_dataset_schema(dataset_type)
+   fields = dict()
+   for field in schema['dataset_fields']:
+      if field.get('choices'):
+         choices_new = dict()
+         for choice in field.get('choices'):
+            choices_new[choice['value']] = choice['label']['zh_TW'] if isinstance(choice['label'], dict) else choice['label']
+         fields[field['field_name']] = choices_new
+   return fields
+
+def get_time_period():
+   time_period_dict = get_field_choices('dataset')['time_period']
+   time_period_list = []
+   for value, label in time_period_dict.iteritems():
+      splitted = re.split(r'[-()]', label)
+      time_period_list.append((label, splitted[-3], splitted[-2]))
+   time_period_list.sort(key=lambda tup:tup[1])
+   return time_period_list
+
+def string_to_list(value):
+   if isinstance(value, list):
+      return value
+   out_list = []
+   if not value == '':
+      out_list.append(value)
+   return out_list

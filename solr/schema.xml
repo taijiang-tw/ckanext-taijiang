@@ -16,7 +16,7 @@
  limitations under the License.
 -->
 
-<schema name="ckan" version="2.0">
+<schema name="ckan" version="2.3">
 
 <types>
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
@@ -98,9 +98,11 @@
 
     <field name="capacity" type="string" indexed="true" stored="true" multiValued="false"/>
 
+    <field name="res_name" type="textgen" indexed="true" stored="true" multiValued="true" />
     <field name="res_description" type="textgen" indexed="true" stored="true" multiValued="true"/>
     <field name="res_format" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="res_url" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="res_type" type="string" indexed="true" stored="true" multiValued="true"/>
 
     <!-- catchall field, containing all other searchable text fields (implemented
          via copyField further on in this schema  -->
@@ -155,7 +157,7 @@
     <field name="language_facet" type="string" indexed="true" stored="true"/>
     <field name="encoding_facet" type="string" indexed="true" stored="true"/>
     <field name="theme_keyword_facets" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="loc_keyword_facet" type="string" indexed="true" stored="true"/>
+    <field name="loc_keyword_facet" type="string" indexed="true" stored="true" multiValued="true"/>
 </fields>
 
 <uniqueKey>index_id</uniqueKey>
@@ -177,6 +179,7 @@
 <copyField source="notes" dest="text"/>
 <copyField source="tags" dest="text"/>
 <copyField source="groups" dest="text"/>
+<copyField source="res_name" dest="text"/>
 <copyField source="res_description" dest="text"/>
 <copyField source="maintainer" dest="text"/>
 <copyField source="author" dest="text"/>
