@@ -165,7 +165,7 @@ class WMTSView(TaijiangViewBase):
                 'title': 'wmts',
                 'icon': 'map-marker',
                 'iframed': True,
-                'default_title': p.toolkit._('Map'),
+                'default_title': 'WMTS',
                 }
 
     def can_view(self, data_dict):
@@ -191,7 +191,7 @@ class SHPView(TaijiangViewBase):
                 'title': 'shp',
                 'icon': 'map-marker',
                 'iframed': True,
-                'default_title': p.toolkit._('Map'),
+                'default_title': 'SHP',
                 }
 
     def can_view(self, data_dict):

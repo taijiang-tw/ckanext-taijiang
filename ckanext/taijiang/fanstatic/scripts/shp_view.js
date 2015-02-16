@@ -5,6 +5,7 @@ ckan.module('shppreview', function (jQuery, _) {
       table: '<table class="table table-striped table-bordered table-condensed"><tbody>{body}</tbody></table>',
       row:'<tr><th>{key}</th><td>{value}</td></tr>',
       style: {
+        fillColor: '#03F',
         opacity: 0.7,
         fillOpacity: 0.1,
         weight: 2
@@ -104,6 +105,16 @@ ckan.module('shppreview', function (jQuery, _) {
           return result;
         }
 
+        function highLightStyle(e) {
+          gjLayer.eachLayer(function(l) {
+            gjLayer.resetStyle(l);
+          });
+          e.target.setStyle({
+            fillColor: '#FF0',
+            fillOpacity: 0.6
+          });
+        }
+
         self.map.spin(true);
         var gjLayer = L.geoJson([], {
           style: self.options.style,
@@ -117,6 +128,7 @@ ckan.module('shppreview', function (jQuery, _) {
             });
             var popupContent = L.Util.template(self.options.table, {body: body});
             layer.bindPopup(popupContent);
+	    layer.on({click: highLightStyle});
           }
         }).addTo(self.map);
 
@@ -127,13 +139,15 @@ ckan.module('shppreview', function (jQuery, _) {
           var dbf = data.dbf;
           var dbfFields = dbf.fields;
           for (var i = 0; i < data.geojson.features.length; i++) {
-            feature = data.geojson.features[i].geometry.coordinates[0];
-            for (var j = 0; j < feature.length; j++) {
-              var projcoordinates = TransCoord(feature[j][0], feature[j][1]);
-              data.geojson.features[i].geometry.coordinates[0][j][0] = projcoordinates.x;
-              data.geojson.features[i].geometry.coordinates[0][j][1] = projcoordinates.y;
+            features = data.geojson.features[i].geometry.coordinates;
+	    for (var number = 0; number < features.length; number++) {
+              for (var j = 0; j < features[number].length; j++) {
+	        var projcoordinates = TransCoord(features[number][j][0], features[number][j][1]);
+	        features[number][j][0] = projcoordinates.x;
+	        features[number][j][1] = projcoordinates.y;
+              };
             };
-          };
+	  };
           gjLayer.addData(data.geojson);
 	  self.map.fitBounds(gjLayer.getBounds());
           self.map.spin(false);

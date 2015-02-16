@@ -1,15 +1,15 @@
 # Chinese (Taiwan) translations for ckanext-taijiang.
-# Copyright (C) 2014 ORGANIZATION
+# Copyright (C) 2015 ORGANIZATION
 # This file is distributed under the same license as the ckanext-taijiang
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: ckanext-taijiang 0.1\n"
+"Project-Id-Version: ckanext-taijiang 5.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-09-01 11:52+0800\n"
-"PO-Revision-Date: 2014-09-01 11:52+0800\n"
+"POT-Creation-Date: 2015-02-16 16:04+0800\n"
+"PO-Revision-Date: 2015-02-16 16:13+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: zh_TW <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0\n"
@@ -26,12 +26,36 @@ msgstr ""
 msgid "Contact us"
 msgstr ""
 
-#: ckanext/taijiang/templates/footer.html:11
-msgid "CKAN API"
+#: ckanext/taijiang/templates/header.html:8
+msgid "Datasets"
 msgstr ""
 
-#: ckanext/taijiang/templates/footer.html:12
-msgid "Open Knowledge Foundation"
+#: ckanext/taijiang/templates/header.html:9
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/taijiang/templates/header.html:10
+msgid "Groups"
+msgstr ""
+
+#: ckanext/taijiang/templates/header.html:11
+msgid "About"
+msgstr ""
+
+#: ckanext/taijiang/templates/header.html:12
+msgid "Site Statistics"
+msgstr ""
+
+#: ckanext/taijiang/templates/home/layout2.html:7
+msgid "Announcement"
+msgstr ""
+
+#: ckanext/taijiang/templates/home/layout2.html:11
+msgid "Project News"
+msgstr ""
+
+#: ckanext/taijiang/templates/home/snippets/news.html:7
+msgid "No latest news."
 msgstr ""
 
 #: ckanext/taijiang/templates/home/snippets/promoted.html:6
@@ -40,546 +64,154 @@ msgid ""
 "Taiwan."
 msgstr ""
 
-#: ckanext/taijiang/templates/package/read_base.html:4
-msgid "Dataset"
+#: ckanext/taijiang/templates/package/read.html:15
+msgid "Other Access"
+msgstr ""
+
+#: ckanext/taijiang/templates/package/read.html:18
+msgid ""
+"The information on this page (the dataset metadata) is also available in "
+"these formats:"
+msgstr ""
+
+#: ckanext/taijiang/templates/package/read.html:27
+msgid "via the "
 msgstr ""
 
 #: ckanext/taijiang/templates/package/read_base.html:5
-msgid "Groups"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/read_base.html:6
-msgid "Activity Stream"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/read_base.html:7
 msgid "History"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/read_base.html:10
-msgid "Related"
+#: ckanext/taijiang/templates/package/snippets/info.html:23
+msgid "Followers"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:7
-msgid "Additional Info"
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:13
+msgid "Additional Information"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:11
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_temporal_fields.html:5
-#: ckanext/taijiang/templates/package/snippets/package_theme_fields.html:5
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:17
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info_fields.html:5
 msgid "Field"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:12
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_temporal_fields.html:6
-#: ckanext/taijiang/templates/package/snippets/package_theme_fields.html:6
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:18
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info_fields.html:6
 msgid "Value"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:18
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:27
-msgid "Identifier"
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:24
+msgid "Last updated"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:25
-#: ckanext/taijiang/templates/snippets/data_type_list.html:3
-msgid "Data Type"
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:25
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:31
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:37
+msgid "unknown"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:36
-#: ckanext/taijiang/templates/snippets/proj_list.html:3
-msgid "Project"
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:30
+msgid "Created"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:47
-#: ckanext/taijiang/templates/snippets/language_list.html:3
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:36
+msgid "Format"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/resource_read.html:42
+msgid "License"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:107
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:112
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:50
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:10
+msgid "Temporal Information"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:117
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:52
+msgid "Contact Information"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:121
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:54
+msgid "Keywords"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:126
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:56
+msgid "Spatial Fields"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:132
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:43
+msgid "Scanned Image"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:138
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:47
+msgid "Spatial Type"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info.html:144
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:39
+msgid "Book"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/additional_info_fields.html:24
+msgid "State"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:50
+msgid "Time Period of Dataset"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:60
+msgid "Convert from Parcel Corner"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:61
+msgid "Using a Map"
+msgstr ""
+
+#: ckanext/taijiang/templates/scheming/package/snippets/package_form.html:65
+msgid "Miscellaneous"
+msgstr ""
+
+#: ckanext/taijiang/templates/shp_view/shp.html:12
+#: ckanext/taijiang/templates/wmts_view/wmts.html:7
+msgid "Loading..."
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:12
+msgid "Clear"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:15
+msgid "Start Time"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:16
+msgid "End Time"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:18
+msgid "Or use time period shortcut"
+msgstr ""
+
+#: ckanext/taijiang/templates/snippets/date_facet_slider.html:25
+msgid "Update Search"
+msgstr ""
+
 #: ckanext/taijiang/templates/snippets/language_selector.html:4
 msgid "Language"
 msgstr ""
 
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:58
-#: ckanext/taijiang/templates/snippets/encoding_list.html:3
-msgid "Encoding"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:69
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:173
-msgid "Reference"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:76
-msgid "Version"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/additional_info.html:83
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:91
-msgid "State"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:10
-msgid "Title"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:10
-msgid "eg. A descriptive title"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:19
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:75
-#: ckanext/taijiang/templates/snippets/extended_fields.html:14
-msgid "URL"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:19
-msgid "eg. my-dataset"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:23
-msgid "Description"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:23
-msgid "eg. Some useful notes about the data"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:54
-msgid "Organization"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:58
-msgid "No organization"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:73
-msgid "Visibility"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:76
-msgid "Private"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:76
-msgid "Public"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:94
-msgid "Active"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:95
-msgid "Deleted"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:104
-#: ckanext/taijiang/templates/package/snippets/package_temporal_fields.html:1
-msgid "Temporal Information"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:110
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:118
-msgid ""
-"Depend on the temporal resolution setting. Acceptable formats: 'YYYY', "
-"'YYYY-MM', or 'YYYY-MM-DD'."
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:112
-#: ckanext/taijiang/templates/package/snippets/package_temporal_fields.html:12
-msgid "Start Time"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:120
-#: ckanext/taijiang/templates/package/snippets/package_temporal_fields.html:19
-msgid "End Time"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:125
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:1
-msgid "Contact Information"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:126
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:12
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:17
-msgid "Author"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:126
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:129
-msgid "Joe Bloggs"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:127
-msgid "Author Email"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:127
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:130
-msgid "joe@example.com"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:128
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:24
-msgid "Author Phone"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:128
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:131
-msgid "02-12345678"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:129
-msgid "Maintainer Name"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:130
-msgid "Maintainer Email"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:131
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:44
-msgid "Maintainer Phone"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:135
-#: ckanext/taijiang/templates/package/snippets/package_theme_fields.html:1
-msgid "Keywords"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:140
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:1
-msgid "Spatial Fields"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:142
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:23
-msgid "X.min"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:142
-msgid "填寫圖資空間四至範圍之最西經度值"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:143
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:30
-msgid "X.max"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:143
-msgid "填寫圖資空間四至範圍之最東經度值"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:144
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:37
-msgid "Y.min"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:144
-msgid "填寫圖資空間四至範圍之最南緯度值"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:145
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:44
-msgid "Y.max"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:145
-msgid "填寫圖資空間四至範圍之最北緯度值"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:148
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:51
-msgid "Spatial"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:150
-msgid "Accept geojson"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:151
-msgid "此欄位將作為空間索引之用。關於 GeoJSON 格式請見 "
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:151
-msgid "格式說明"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:151
-msgid "。"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:156
-msgid "自四至範圍轉換"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:157
-msgid "使用圖台新增"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:164
-msgid "Miscellaneous"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:170
-msgid "Tags"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:170
-msgid "eg. economy, mental health, government"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:179
-msgid "License"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_basic_fields.html:189
-msgid ""
-"\n"
-"        License definitions and additional information can be found\n"
-"        at <a "
-"href=\"http://opendefinition.org/licenses/\">opendefinition.org</a>\n"
-"      "
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:1
-#: ckanext/taijiang/templates/snippets/extended_fields.html:4
-msgid "Book"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:12
-#: ckanext/taijiang/templates/snippets/extended_fields.html:5
-msgid "ISBN-13"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:19
-#: ckanext/taijiang/templates/snippets/extended_fields.html:6
-msgid "ISSN"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:26
-#: ckanext/taijiang/templates/snippets/extended_fields.html:7
-msgid "Journal"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:33
-#: ckanext/taijiang/templates/snippets/extended_fields.html:8
-msgid "Volume"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:40
-#: ckanext/taijiang/templates/snippets/extended_fields.html:9
-msgid "Proceeding"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:47
-#: ckanext/taijiang/templates/snippets/extended_fields.html:10
-msgid "Location"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:54
-#: ckanext/taijiang/templates/snippets/extended_fields.html:11
-msgid "Publisher"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:61
-#: ckanext/taijiang/templates/snippets/extended_fields.html:12
-msgid "Publication Year"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:68
-#: ckanext/taijiang/templates/snippets/extended_fields.html:13
-msgid "Book Query"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:111
-#: ckanext/taijiang/templates/snippets/hist_material.html:4
-msgid "Historical Material"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:118
-#: ckanext/taijiang/templates/snippets/extended_fields.html:16
-msgid "Village of Research Area"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:125
-#: ckanext/taijiang/templates/snippets/extended_fields.html:17
-msgid "Religion of Research Area"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:132
-#: ckanext/taijiang/templates/snippets/extended_fields.html:18
-msgid "Family of Research Area"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:139
-#: ckanext/taijiang/templates/snippets/extended_fields.html:19
-msgid "Reservoir of Research Area"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:146
-#: ckanext/taijiang/templates/snippets/extended_fields.html:20
-msgid "Industry of Research Area"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_book_fields.html:153
-#: ckanext/taijiang/templates/snippets/extended_fields.html:21
-msgid "Notes"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:31
-#: ckanext/taijiang/templates/package/snippets/package_contact_fields.html:37
-msgid "Maintainer"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:1
-#: ckanext/taijiang/templates/snippets/extended_fields.html:25
-msgid "Scanned Image"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:12
-#: ckanext/taijiang/templates/snippets/extended_fields.html:26
-msgid "Scan Source"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:19
-#: ckanext/taijiang/templates/snippets/extended_fields.html:27
-msgid "Scan Size"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_scanned_image_fields.html:26
-#: ckanext/taijiang/templates/snippets/extended_fields.html:28
-msgid "Scan Resolution"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_fields.html:12
-#: ckanext/taijiang/templates/snippets/loc_keyword.html:3
-msgid "Spatial Keyword"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:1
-#: ckanext/taijiang/templates/snippets/extended_fields.html:32
-msgid "Spatial Type"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:12
-#: ckanext/taijiang/templates/snippets/extended_fields.html:38
-msgid "Coordinate Systems"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:19
-#: ckanext/taijiang/templates/snippets/extended_fields.html:39
-msgid "Spatial Resolution"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:26
-#: ckanext/taijiang/templates/snippets/extended_fields.html:40
-msgid "Scale"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_spatial_type_fields.html:33
-#: ckanext/taijiang/templates/snippets/extended_fields.html:41
-msgid "Preprocessing"
-msgstr ""
-
-#: ckanext/taijiang/templates/package/snippets/package_theme_fields.html:13
-#: ckanext/taijiang/templates/snippets/theme_keyword.html:3
-msgid "Theme Keyword"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:5
-msgid "978-1-234-56789-7"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:6
-msgid "1234-5678"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:27
-msgid "填寫原件尺寸大小，單位為公分，如 60x72"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:28
-msgid "填寫掃描解析度數值，單位為 DPI，如 300"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:38
-msgid "eg. 3826"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:39
-msgid "填寫資料空間解析度數值，以公尺為單位"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:40
-msgid "填寫資料比例尺之分母"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/extended_fields.html:41
-msgid "以文字描述資料形成所經過之處理過程，建議以各階段或步驟為導向進行填寫"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:5
-msgid "清代方志"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:6
-msgid "日治出版品與官方資料"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:7
-msgid "戰後官方資料與鄉鎮志"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:8
-msgid "碑文"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:9
-msgid "報紙"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:10
-msgid "地圖"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:11
-msgid "台灣總督府檔案（公文類纂、府報、調查報告、職員錄、衛生法規）"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:12
-msgid "荷治時期檔案"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/hist_material.html:13
-msgid "地方田野收集文獻（族譜、寺廟志、帳冊、契約）"
-msgstr ""
-
 #: ckanext/taijiang/templates/snippets/language_selector.html:18
 msgid "Go"
-msgstr ""
-
-#: ckanext/taijiang/templates/snippets/temp_res_list.html:3
-msgid "Temporal Resolution"
-msgstr ""
-
-#: ckanext/taijiang/templates/user/login.html:4
-msgid "Need an Account?"
-msgstr ""
-
-#: ckanext/taijiang/templates/user/login.html:6
-msgid "Then sign right up, it only takes a minute."
-msgstr ""
-
-#: ckanext/taijiang/templates/user/login.html:9
-msgid "Create an Account"
 msgstr ""
 

@@ -16,7 +16,6 @@ ckan.module('wmtspreview', function (jQuery, _) {
       });
 
       // use CORS, if supported by browser and server
-      console.log(preload_resource['original_url']);
       if (jQuery.support.cors && preload_resource['original_url'] !== undefined) {
         jQuery.get(preload_resource['original_url'])
         .done(
