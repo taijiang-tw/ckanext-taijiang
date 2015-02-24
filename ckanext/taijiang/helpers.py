@@ -53,6 +53,7 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
+      '''
       if result[0].get('extras', []):
          #For old schema definition
          start_time = filter(lambda x: x['key'] == 'start_time',
@@ -61,6 +62,9 @@ def get_default_slider_values():
       else:
          start_time = result[0].get('start_time')
          begin = dateutil.parser.parse(start_time).isoformat().split('T')[0]
+      '''
+      start_time = result[0].get('start_time')
+      begin = dateutil.parser.parse(start_time).isoformat().split('T')[0]
    else:
       begin = date.today().isoformat()
    
@@ -71,6 +75,7 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
+      '''
       if result[0].get('extras', []):
          #For old schema definition
          end_time = filter(lambda x: x['key'] == 'end_time',
@@ -79,6 +84,9 @@ def get_default_slider_values():
       else:
          end_time = result[0].get('end_time')
          end = dateutil.parser.parse(end_time).isoformat().split('T')[0]
+      '''
+      end_time = result[0].get('end_time')
+      end = dateutil.parser.parse(end_time).isoformat().split('T')[0]
    else:
       end = date.today().isoformat()
    return begin, end
@@ -116,9 +124,8 @@ def get_time_period():
    return time_period_list
 
 def string_to_list(value):
+   if value == [u''] or value == None:
+      return []
    if isinstance(value, list):
       return value
-   out_list = []
-   if not value == '':
-      out_list.append(value)
-   return out_list
+   return [value]

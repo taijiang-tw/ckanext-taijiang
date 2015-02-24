@@ -18,7 +18,7 @@
       id='field-' + field.field_name + '-' ~ loop.index,
       label=h.scheming_language_text(field.label) + ' ' ~ loop.index,
       options=options,
-      selected=element,
+      selected=element|string,
       error=errors[field.field_name],
       classes=['control-medium'],
       attrs=field.form_attrs if 'form_attrs' in field else {},

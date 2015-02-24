@@ -41,7 +41,7 @@ ckan.module('shppreview', function (jQuery, _) {
         ]
       ]);
       var resource_crs = preload_resource['resource_crs'];
-      self.feature_crs = ($.inArray(resource_crs, ['3826', '3821', '3825', '3828']) != -1) ? proj4('EPSG:'+resource_crs): proj4('EPSG:4326');
+      self.feature_crs = ($.inArray(resource_crs, [3826, 3821, 3825, 3828]) != -1) ? proj4('EPSG:'+resource_crs): proj4('EPSG:4326');
       self.leaflet_crs = proj4('EPSG:4326');
 
       // use CORS, if supported by browser and server
