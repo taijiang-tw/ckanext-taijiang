@@ -67,17 +67,18 @@ class TaijiangDatasets(p.SingletonPlugin):
                 data_dict[field_name+'_facet'] = fields[field_name][value]
         if data_dict.get('theme_keyword'):
             data_dict['theme_keyword_facets'] = json.loads(data_dict.get('theme_keyword'))
-
-        if isinstance(data_dict.get('loc_keyword'), list):
-            data_dict['loc_keyword_facet'] = json.loads(data_dict.get('loc_keyword'))
-	elif isinstance(data_dict.get('loc_keyword'), unicode):
-            #For old schema definition
-            data_dict['loc_keyword_facet'] = fields['loc_keyword'].get(data_dict['loc_keyword'])
         #For old schema definition
-	for i in range(5):
+        for i in range(5):
             field_name = 'theme_keyword_' + str(i+1)
             if isinstance(data_dict.get(field_name), unicode):
-                data_dict['theme_keyword_facets'].append(fields['theme_keyword'].get(data_dict[field_name]))
+	        data_dict['theme_keyword_facets'].append(fields['theme_keyword'].get(data_dict[field_name]))
+        if data_dict.get('loc_keyword'):
+            data_dict['loc_keyword_facet'] = json.loads(data_dict.get('loc_keyword'))
+            if isinstance(data_dict['loc_keyword_facet'], list):
+                data_dict['loc_keyword_facet'] = [fields['loc_keyword'][loc_keyword] for loc_keyword in filter(None, data_dict['loc_keyword_facet'])]
+            #For old schema definition
+	    elif isinstance(data_dict['loc_keyword_facet'], int):
+                data_dict['loc_keyword_facet'] = fields['loc_keyword'][str(data_dict['loc_keyword'])]
         return data_dict
 
     ## IFacets
