@@ -1871,8 +1871,8 @@
       "prepend_text": "EPSG",
       "validators": "ignore_missing positive_integer_validator",
       "form_placeholder": {
-        "en": "eg. 3826",
-        "zh_TW": "eg. 3826"
+        "en": "eg. 4326",
+        "zh_TW": "例如：4326"
       },
       "help_text": {
         "en": "EPSG:4326→WGS84 (Default), EPSG:3826→TWD97/TM2 Taiwan, EPSG:3821→TWD67, EPSG:3825→TWD97/TM2 Penghu, EPSG:3828→TWD67/TM2 Taiwan",
