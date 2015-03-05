@@ -6,12 +6,20 @@
     {% endblock %}
 
     {% set map_config = h.get_common_map_config_shp() %}
-    <div data-module="shppreview" id="data-preview" data-module-map_config="{{ h.dump_json(map_config) }}>
+    <div data-module="shppreview" id="data-preview" data-module-map_config="{{ h.dump_json(map_config) }}">
         <h4 class="loading-dialog">
           <div class="loading-spinner"></div>
           <div class="left">{{ _('Loading...') }}</div>
         </h4>
     </div>
+
+    {% block scripts %}
+      <script>
+        var preload_resource = {{ h.literal(h.dump_json(resource or c.resource)) }};
+        var preload_package = {{ h.literal(h.dump_json(package or c.package)) }};
+      </script>
+    {% endblock %}
+
   {% resource 'ckanext-taijiang/shp' %}
   {% resource 'ckanext-spatial/js/common_map.js' %}
 

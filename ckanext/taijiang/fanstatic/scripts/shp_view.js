@@ -38,10 +38,14 @@ ckan.module('shppreview', function (jQuery, _) {
 	[
 	  'EPSG:3828', 
 	  '+title=TWD67 TM2 zone 121 +proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=aust_SA +units=m +no_defs'
+        ],
+	[
+	  'EPSG:3857',
+	  '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'
         ]
       ]);
       var resource_crs = preload_resource['resource_crs'];
-      self.feature_crs = ($.inArray(resource_crs, [3826, 3821, 3825, 3828]) != -1) ? proj4('EPSG:'+resource_crs): proj4('EPSG:4326');
+      self.feature_crs = ($.inArray(resource_crs, [3826, 3821, 3825, 3828, 3857]) != -1) ? proj4('EPSG:'+resource_crs): proj4('EPSG:4326');
       self.leaflet_crs = proj4('EPSG:4326');
 
       // use CORS, if supported by browser and server
@@ -141,18 +145,24 @@ ckan.module('shppreview', function (jQuery, _) {
           for (var i = 0; i < data.geojson.features.length; i++) {
             features = data.geojson.features[i].geometry.coordinates;
 	    for (var number = 0; number < features.length; number++) {
-              for (var j = 0; j < features[number].length; j++) {
-	        var projcoordinates = TransCoord(features[number][j][0], features[number][j][1]);
-	        features[number][j][0] = projcoordinates.x;
-	        features[number][j][1] = projcoordinates.y;
-              };
-            };
-	  };
+	      if (features[number].length <= 2) {
+		var projcoordinates = TransCoord(features[number][0], features[number][1]);
+		features[number][0] = projcoordinates.x;
+		features[number][1] = projcoordinates.y;
+	      } else {
+                for (var j = 0; j < features[number].length; j++) {
+	          var projcoordinates = TransCoord(features[number][j][0], features[number][j][1]);
+	          features[number][j][0] = projcoordinates.x;
+	          features[number][j][1] = projcoordinates.y;
+                }
+	      }
+            }
+	  }
           gjLayer.addData(data.geojson);
 	  self.map.fitBounds(gjLayer.getBounds());
           self.map.spin(false);
-        })
+        });
       });
     }
-  };
+  }
 });

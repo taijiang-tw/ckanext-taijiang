@@ -61,11 +61,11 @@ def temp_res_validator(key, data, errors, context):
 
     value = data[key]
 
-    if value[-1] == 'Z':
-        return
-
     if value == '':
         data[key] = None
+        return
+
+    if value[-1] == 'Z':
         return
 
     time_format = { u'date': ['%Y-%m-%d', 'YYYY-MM-DD'],
@@ -83,7 +83,7 @@ def temp_res_validator(key, data, errors, context):
             value = datetime.strptime(value,
                     time_format[temp_res][0])
         except ValueError:
-            raise Invalid('Incorrect data format, should be %s' % time_format[temp_res][1])
+            raise Invalid(_('Date format incorrect') + _(', should be: ') + '%s' % time_format[temp_res][1])
         data[key] = value.isoformat() + 'Z'
 
 def append_time_period(key, data, errors, context):
@@ -99,10 +99,14 @@ def append_time_period(key, data, errors, context):
 def date_validator(key, data, errors, context):
     if errors[key]:
         return
+
     value = data[key]
 
-    if value == '' or value[-1] == 'Z':
+    if value == '':
         data[key] = None
+        return
+
+    if value[-1] == 'Z':
         return
 
     time_format = ''
@@ -120,8 +124,7 @@ def date_validator(key, data, errors, context):
         time_format = '%Y-%m-%d'
     except ValueError: is_error[2] = True
     if len(set(is_error)) <= 1:
-        raise Invalid('Incorrect data format, should be YYYY' +
-            ', YYYY-MM, or YYYY-MM-DD')
+        raise Invalid(_('Date format incorrect'))
     data[key] = datetime.strptime(value, time_format).isoformat() + 'Z'
 
 def duplicate_validator(key, data, errors, context):
