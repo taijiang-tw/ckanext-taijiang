@@ -1,6 +1,6 @@
-=====================================================================
-Dataset for Taijiang Project (台江內海研究資料集) Extension for CKAN
-=====================================================================
+===================================================
+CKAN extension for taijiang.tw (台江內海研究資料集)
+===================================================
 
 
 This extension contains the plugin that add functions to `Taijiang Research Database <http://taijiang.tw>`_
