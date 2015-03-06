@@ -18,36 +18,9 @@ ckan.module('shppreview', function (jQuery, _) {
       var self = this;
 
       self.el.empty();
-      self.el.append($("<div></div>").attr("id","map"));
+      self.el.append($('<div></div>').attr('id', 'map'));
       self.map = ckan.commonLeafletMap('map', this.options.map_config);
       
-      // define EPSG Projections
-      proj4.defs([
-        [
-	  'EPSG:3826',
-	  '+title=TWD97 TM2 zone 121 +proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +units=m +no_defs'
-	],
-	[
-	  'EPSG:3821',
-	  '+title=TWD67 +proj=longlat +towgs84=-752,-358,-179,-.0000011698,.0000018398,.0000009822,.00002329 +ellps=aust_SA +units=degrees +no_defs'
-	],
-        [
-	  'EPSG:3825', 
-	  '+title=TWD97 TM2 zone 119 +proj=tmerc +lat_0=0 +lon_0=119 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +units=m +no_defs'
-	],
-	[
-	  'EPSG:3828', 
-	  '+title=TWD67 TM2 zone 121 +proj=tmerc +lat_0=0 +lon_0=121 +k=0.9999 +x_0=250000 +y_0=0 +ellps=aust_SA +units=m +no_defs'
-        ],
-	[
-	  'EPSG:3857',
-	  '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs'
-        ]
-      ]);
-      var resource_crs = preload_resource['resource_crs'];
-      self.feature_crs = ($.inArray(resource_crs, [3826, 3821, 3825, 3828, 3857]) != -1) ? proj4('EPSG:'+resource_crs): proj4('EPSG:4326');
-      self.leaflet_crs = proj4('EPSG:4326');
-
       // use CORS, if supported by browser and server
       if (jQuery.support.cors && preload_resource['original_url'] !== undefined) {
         jQuery.get(preload_resource['original_url'])
@@ -93,75 +66,41 @@ ckan.module('shppreview', function (jQuery, _) {
     showPreview: function (url, data) {
       var self = this;
 
-      JSZipUtils.getBinaryContent(url, function(err, data) {
-        if(err) throw err;
-
-        var zip = new JSZip(data);
-        var shpString =  zip.file(/.shp/)[0].name;
-        var dbfString = zip.file(/.dbf/)[0].name;
-
-        function TransCoord(x, y) {
-          var result;
-          if (proj4) {
-            var p = proj4(self.feature_crs, self.leaflet_crs, [x, y]);
-            result = {x: p[0], y: p[1]};
-          }
-          return result;
-        }
-
-        function highLightStyle(e) {
-          gjLayer.eachLayer(function(l) {
-            gjLayer.resetStyle(l);
-          });
-          e.target.setStyle({
-            fillColor: '#FF0',
-            fillOpacity: 0.6
-          });
-        }
-
-        self.map.spin(true);
-        var gjLayer = L.geoJson([], {
-          style: self.options.style,
-          onEachFeature: function(feature, layer) {
-            var body = '';
-            jQuery.each(feature.properties, function(key, value){
-              if (value != null && typeof value === 'object') {
-                value = JSON.stringify(value);
-              }
-              body += L.Util.template(self.options.row, {key: key, value: value});
-            });
-            var popupContent = L.Util.template(self.options.table, {body: body});
-            layer.bindPopup(popupContent);
-	    layer.on({click: highLightStyle});
-          }
-        }).addTo(self.map);
-
-        shapefile = new Shapefile({
-          shp: URL.createObjectURL(new Blob([zip.file(shpString).asArrayBuffer()])),
-          dbf: URL.createObjectURL(new Blob([zip.file(dbfString).asArrayBuffer()]))
-        }, function(data){
-          var dbf = data.dbf;
-          var dbfFields = dbf.fields;
-          for (var i = 0; i < data.geojson.features.length; i++) {
-            features = data.geojson.features[i].geometry.coordinates;
-	    for (var number = 0; number < features.length; number++) {
-	      if (features[number].length <= 2) {
-		var projcoordinates = TransCoord(features[number][0], features[number][1]);
-		features[number][0] = projcoordinates.x;
-		features[number][1] = projcoordinates.y;
-	      } else {
-                for (var j = 0; j < features[number].length; j++) {
-	          var projcoordinates = TransCoord(features[number][j][0], features[number][j][1]);
-	          features[number][j][0] = projcoordinates.x;
-	          features[number][j][1] = projcoordinates.y;
-                }
-	      }
-            }
-	  }
-          gjLayer.addData(data.geojson);
-	  self.map.fitBounds(gjLayer.getBounds());
-          self.map.spin(false);
+      function highLightStyle(e) {
+        gjLayer.eachLayer(function(l) {
+          gjLayer.resetStyle(l);
         });
+        e.target.setStyle({
+          fillColor: '#FF0',
+          fillOpacity: 0.6
+        });
+      }
+
+      self.map.spin(true);
+      var gjLayer = L.geoJson([], {
+        style: self.options.style,
+        onEachFeature: function(feature, layer) {
+          var body = '';
+          jQuery.each(feature.properties, function(key, value) {
+            if (value != null && typeof value === 'object') {
+              value = JSON.stringify(value);
+            }
+            body += L.Util.template(self.options.row, {key: key, value: value});
+          });
+          var popupContent = L.Util.template(self.options.table, {body: body});
+          layer.bindPopup(popupContent);
+	  layer.on({click: highLightStyle});
+        }
+      }).addTo(self.map);
+
+      loadshp({
+        url: url,
+        encoding: preload_package.encoding,
+        EPSG: preload_resource.resource_crs
+      }, function(data) {
+        gjLayer.addData(data);
+        self.map.fitBounds(gjLayer.getBounds());
+        self.map.spin(false);
       });
     }
   }
