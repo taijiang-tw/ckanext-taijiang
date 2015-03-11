@@ -5,3 +5,16 @@ img#beta {
   left: 0;
   z-index: 999;
 }
+
+/* Additional info - used on both dataset and resource page */
+.additional-info thead {
+  display: none;
+}
+
+.additional-info th {
+  width: 15%;
+}
+
+.additional-info td, .additional-info th {
+  border-top: none;
+}

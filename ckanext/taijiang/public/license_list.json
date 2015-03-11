@@ -105,12 +105,26 @@
     "domain_data": false, 
     "is_okd_compliant": false, 
     "is_generic": false, 
-    "url": "http://creativecommons.org/licenses/by-nc/2.0/", 
+    "url": "http://creativecommons.org/licenses/by-nc/3.0",
     "is_osi_compliant": false, 
     "domain_content": false, 
     "domain_software": false, 
-    "id": "cc-nc"
-  }, 
+    "id": "cc-by-nc"
+  },
+  {
+    "status": "active",
+    "maintainer": "",
+    "family": "",
+    "title": "創用 CC 姓名標示-非商業性-相同方式分享 (CC-BY-NC-SA)",
+    "domain_data": false,
+    "is_okd_compliant": false,
+    "is_generic": false,
+    "url": "http://creativecommons.org/licenses/by-nc-sa/3.0",
+    "is_osi_compliant": false,
+    "domain_content": false,
+    "domain_software": false,
+    "id": "cc-by-nc-sa"
+  },
   {
     "status": "active", 
     "maintainer": "", 

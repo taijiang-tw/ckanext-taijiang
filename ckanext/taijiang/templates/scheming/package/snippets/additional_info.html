@@ -9,7 +9,7 @@
 
 {%- set additional_fields = [
     'identifier',
-    'pkg_dict.type',
+    'data_type',
     'proj',
     'created_time',
     'language',
@@ -104,43 +104,43 @@
 {% endif %}
 
 <section class="additional-info">
-  {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Additional Info'), pkg_dict=pkg_dict, additional_fields=additional_fields, exclude_fields=exclude_fields, schema=schema %}
+  {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Basic Information'), pkg_dict=pkg_dict, additional_fields=additional_fields, exclude_fields=exclude_fields, schema=schema %}
 </section>
 
 {% if pkg_dict.get('start_time') %}
-  <section class="temporal-info">
+  <section class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Temporal Information'), pkg_dict=pkg_dict, additional_fields=temporal_fields, exclude_fields=exclude_fields, schema=schema %}
   </section>
 {% endif %}
 
-<sction class="contact-info">
+<sction class="additional-info">
   {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Contact Information'), pkg_dict=pkg_dict, additional_fields=contact_fields, exclude_fields=exclude_fields, schema=schema %}
 
 {% if pkg_dict.get('theme_keyword') %}
-  <sction class="theme-keyword-info">
+  <sction class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Keywords'), pkg_dict=pkg_dict, additional_fields=theme_keyword_field, exclude_fields=exclude_fields, schema=schema %}
 {% endif %}
 
 {% if pkg_dict.get('loc_keyword') or pkg_dict.get('x_min') or pkg_dict.get('x_max') or pkg_dict.get('y_min') or pkg_dict.get('y_max') or pkg_dict.get('spatial') %}
-  <section class="spatial-info">
+  <section class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Spatial Fields'), pkg_dict=pkg_dict, additional_fields=spatial_fields, exclude_fields=exclude_fields, schema=schema %}
   </section>
 {% endif %}
 
 {% if pkg_dict.get('scan_source') or pkg_dict.get('scan_size') or pkg_dict.get('scan_res') %}
-  <section class="scanned-image-info">
+  <section class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Scanned Image'), pkg_dict=pkg_dict, additional_fields=scanned_image_fields, exclude_fields=exclude_fields, schema=schema %}
   </section>
 {% endif %}
 
 {% if pkg_dict.get('crs') or pkg_dict.get('spatial_res') or pkg_dict.get('scale') or pkg_dict.get('preprocessing') %}
-  <section class="spatial-type-info">
+  <section class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Spatial Type'), pkg_dict=pkg_dict, additional_fields=spatial_type_fields, exclude_fields=exclude_fields, schema=schema %}
   </section>
 {% endif %}
 
 {% if pkg_dict.get('book_isbn') or pkg_dict.get('booak_issn') or pkg_dict.get('book_journal') or pkg_dict.get('book_volume') or pkg_dict.get('book_proceeding') or pkg_dict.get('book_location') or pkg_dict.get('book_publisher') or pkg_dict.get('book_year') or pkg_dict.get('book_query') or pkg_dict.get('book_url') or pkg_dict.get('book_hist_materials') %}
-  <section class="book-info">
+  <section class="additional-info">
     {% snippet 'scheming/package/snippets/additional_info_fields.html', title=_('Book'), pkg_dict=pkg_dict, additional_fields=book_fields, exclude_fields=exclude_fields, schema=schema %}
   </section>
 {% endif %}

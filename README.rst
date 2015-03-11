@@ -3,7 +3,7 @@ CKAN extension for taijiang.tw (台江內海研究資料集)
 ===================================================
 
 
-This extension contains the plugin that add functions to `Taijiang Research Database <http://taijiang.tw>`_
+This extension contains the plugin that add functions to `Taijiang Research Data Repository <http://taijiang.tw>`_
 
 
 Prerequirements
