@@ -17,7 +17,7 @@ entry_points = {
 setup(
     name='ckanext-taijiang',
     version=version,
-    description="CKAN extension for the Taijiang Research Database",
+    description="CKAN extension for taijiang.tw",
     long_description='''
     ''',
     classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
