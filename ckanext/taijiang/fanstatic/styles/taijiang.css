@@ -18,3 +18,23 @@ img#beta {
 .additional-info td, .additional-info th {
   border-top: none;
 }
+
+a.external:after {
+  content: "\f08e";
+  font-family: FontAwesome;
+  font-weight: lighter;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-size: 10px;
+  line-height: 10px;
+  position: relative;
+  top: -3px;
+  left: 3px;
+  margin-right: 5px;
+}
+
+a.external:after:hover {
+  text-decoration: none;
+}
