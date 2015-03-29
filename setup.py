@@ -6,8 +6,6 @@ version = '5.0'
 entry_points = {
     'ckan.plugins': [
 	'taijiang_datasets = ckanext.taijiang.plugin:TaijiangDatasets',
-        'wmts_view = ckanext.taijiang.plugin:WMTSView',
-        'shp_view = ckanext.taijiang.plugin:SHPView',
     ],
     'babel.extractors': [
         'ckan = ckan.lib.extract:extract_ckan',

@@ -13,6 +13,7 @@ Prerequirements
 - modified ckanext-spatial: https://github.com/u10313335/ckanext-spatial
 - ckanext-scheming: https://github.com/open-data/ckanext-scheming
 - ckanext-repeating: https://github.com/open-data/ckanext-repeating
+- Solr with mmseg4j installed
 
 
 Install
@@ -32,7 +33,7 @@ Add the following plugin to your CKAN ini file:
 
 ::
 
-   ckan.plugins = ... taijiang_datasets shp_view wmts_view
+   ckan.plugins = taijiang_datasets ...
 
 Then restart your server.
 

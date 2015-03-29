@@ -2,7 +2,6 @@ from logging import getLogger
 
 import ckan.plugins as p
 from ckan.common import json
-import ckan.lib.datapreview as datapreview
 from datetime import datetime
 from ckanext.taijiang import helpers
 from ckanext.taijiang import validators
@@ -136,89 +135,6 @@ class TaijiangDatasets(p.SingletonPlugin):
             'string_to_list',
         )
         return _get_module_functions(helpers, function_names)
-
-
-class TaijiangViewBase(p.SingletonPlugin):
-    '''This base class for view extensions. '''
-    p.implements(p.IConfigurer, inherit=True)
-    p.implements(p.IResourceView, inherit=True)
-    p.implements(p.IConfigurable, inherit=True)
-
-    proxy_is_enabled = False
-    same_domain = False
-
-    def update_config(self, config):
-        p.toolkit.add_template_directory(config, 'templates')
-        p.toolkit.add_public_directory(config, 'public')
-        p.toolkit.add_resource('fanstatic', 'ckanext-taijiang')
-        config['ckan.resource_proxy_enabled'] = p.plugin_loaded('resource_proxy')
-
-    def configure(self, config):
-        enabled = config.get('ckan.resource_proxy_enabled', False)
-        self.proxy_is_enabled = enabled
-
-    def setup_template_variables(self, context, data_dict):
-        import ckanext.resourceproxy.plugin as proxy
-        self.same_domain = datapreview.on_same_domain(data_dict)
-        if self.proxy_is_enabled and not self.same_domain:
-            data_dict['resource']['original_url'] = data_dict['resource']['url']
-            data_dict['resource']['url'] = proxy.get_proxified_resource_url(data_dict)
-
-
-class WMTSView(TaijiangViewBase):
-    '''This extension views WMTS services. '''
-    WMTS = ['wmts']
-
-    def info(self):
-        return {'name': 'wmts_view',
-                'title': 'wmts',
-                'icon': 'map-marker',
-                'iframed': True,
-                'default_title': 'WMTS',
-                }
-
-    def can_view(self, data_dict):
-        resource = data_dict['resource']
-        format_lower = resource['format'].lower()
-
-        if format_lower in self.WMTS:
-            return self.same_domain or self.proxy_is_enabled
-        return False
-
-    def view_template(self, context, data_dict):
-        return 'wmts_view/wmts.html'
-
-
-class SHPView(TaijiangViewBase):
-    '''This extension views SHP zips. '''
-    p.implements(p.ITemplateHelpers, inherit=True)
-
-    SHP = ['shp zip']
-
-    def info(self):
-        return {'name': 'shp_view',
-                'title': 'shp',
-                'icon': 'map-marker',
-                'iframed': True,
-                'default_title': 'SHP',
-                }
-
-    def can_view(self, data_dict):
-        resource = data_dict['resource']
-        format_lower = resource['format'].lower()
-
-        if format_lower in self.SHP:
-            return self.same_domain or self.proxy_is_enabled
-        return False
-
-    def view_template(self, context, data_dict):
-        return 'shp_view/shp.html'
-    
-    def get_helpers(self):
-        from ckanext.spatial import helpers as spatial_helpers
-        return {
-                'get_common_map_config_shp' : spatial_helpers.get_common_map_config,
-                }
 
 
 def _get_module_functions(module, function_names):
