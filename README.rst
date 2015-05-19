@@ -1,19 +1,27 @@
-===================================================
-CKAN extension for taijiang.tw (台江內海研究資料集)
-===================================================
+================================
+Taijiang.tw (台江內海研究資料集)
+================================
 
-
-This extension contains the plugin that add functions to `Taijiang Research Data Repository <http://taijiang.tw>`_
+`Taijiang Research Data Repository <http://taijiang.tw>`_ is a research data repository for the humanities and areas studies in Taijiang Inland Sea Area, a region in Tainan City in Southern Taiwan.
 
 
 Prerequirements
 ----------------
 
-- CKAN (version 2.3 and up): https://github.com/ckan/ckan
-- modified ckanext-spatial: https://github.com/u10313335/ckanext-spatial
-- ckanext-scheming: https://github.com/open-data/ckanext-scheming
-- ckanext-repeating: https://github.com/open-data/ckanext-repeating
-- Solr with mmseg4j installed
+- **Taijiang.tw CKAN.** The code powering the Taijiang.tw instance of CKAN.
+  - `release-taijiang-tw <https://github.com/taijiang-tw/ckan>`_ - The main development branch used for the current taijiang.tw.
+- **Extensions.** We have developed several CKAN extensions. The `full list of installed extensions can be seen via the CKAN API <http://taijiang.tw/api/util/status>`_. Custom extensions include:
+
+  - `taijiang-tw/ckanext-taijiang <https://github.com/taijiang-tw/ckanext-taijiang>`_ - Most taijiang.tw specific CKAN customizations are contained within this extension.
+  - `taijiang-tw/ckanext-spatial <https://github.com/taijiang-tw/ckanext-spatial>`_ - Geospatial extension for CKAN.
+  - `taijiang-tw/ckanext-geoview <https://github.com/taijiang-tw/ckanext-geoview>`_ - CKAN Geospatial ResourceView.
+  - `taijiang-tw/taijiang-ckan-translations <https://github.com/taijiang-tw/taijiang-ckan-translations>`_ - Translations for Taijiang Research Data Repository.
+  - `taijiang-tw/ckanext-dga-stats <https://github.com/taijiang-tw/ckanext-dga-stats>`_ - CKAN's built-in Statistics plugin modified for taijiang.tw.
+
+- **Other Extensions.**
+
+  - `open-data/ckanext-scheming <https://github.com/open-data/ckanext-scheming>`_ - Easy, sharable custom CKAN schemas.
+  - `open-data/ckanext-repeating <https://github.com/open-data/ckanext-repeating>`_ - Repeating fields for CKAN.
 
 
 Install
@@ -24,7 +32,7 @@ With your virtualenv activated:
 ::
 
    cd src
-   git clone https://github.com/u10313335/ckanext-taijiang.git
+   git clone https://github.com/taijiang-tw/ckanext-taijiang.git
    cd ckanext-taijiang
    python setup.py develop
    pip install -r requirements.txt
@@ -33,7 +41,7 @@ Add the following plugin to your CKAN ini file:
 
 ::
 
-   ckan.plugins = taijiang_datasets ...
+   ckan.plugins = ... taijiang_datasets
 
 Then restart your server.
 

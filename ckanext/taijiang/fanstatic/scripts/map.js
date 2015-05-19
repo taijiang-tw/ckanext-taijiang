@@ -5,6 +5,7 @@ var mq = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'
 });
 // add a Google Maps tile layer
 var ggl = new L.Google('ROADMAP');
+var ggls = new L.Google('HYBRID');
 var map = L.map('map', {
   center: [23.04, 120.18],
   zoom: 11,
@@ -17,7 +18,7 @@ var nlsc = L.tileLayer('http://maps.nlsc.gov.tw/S_Maps/wmts?SERVICE=WMTS&REQUEST
 // add MapQuest (default tile layer)
 map.addLayer(mq);
 // add layer control
-map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl, "通用版電子地圖": nlsc}));
+map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl, "Google Maps (衛星)": ggls, "通用版電子地圖": nlsc}));
 
 featureGroup = L.featureGroup().addTo(map);
 
