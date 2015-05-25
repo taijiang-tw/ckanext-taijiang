@@ -44,7 +44,7 @@
       },
       _getDate: function (date) {
         if (date.length !== 0 && date !== true) {
-          return new Date(date.split('-'));
+          return new Date(date);
         }
         return '';
       },
