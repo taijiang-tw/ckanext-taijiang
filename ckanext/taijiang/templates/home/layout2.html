@@ -1,5 +1,9 @@
 <div role="main" class="hero">
   <div class="container">
+    {% block search %}
+      {% snippet 'home/snippets/search.html' %}
+    {% endblock %}
+    <p></p>
     <div class="row row1">
       <div class="span6 col1">
         <section class="module-narrow module-shallow">
