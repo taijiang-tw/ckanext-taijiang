@@ -17,6 +17,7 @@ class TaijiangDatasets(p.SingletonPlugin):
     p.implements(p.IPackageController, inherit=True)
     p.implements(p.IFacets)
     p.implements(p.IValidators)
+    p.implements(p.IRoutes, inherit=True)
 
     ## IConfigurer
     def update_config(self, config):
@@ -126,7 +127,7 @@ class TaijiangDatasets(p.SingletonPlugin):
         function_names = (
             'extras_to_dict',
 	    'geojson_to_wkt',
-            'get_newsfeed',
+            'latest_news',
             'date_to_iso',
             'get_default_slider_values',
             'get_date_url_param',
@@ -136,6 +137,12 @@ class TaijiangDatasets(p.SingletonPlugin):
         )
         return _get_module_functions(helpers, function_names)
 
+    ## IRoutes
+    def after_map(self, map):
+        map.connect('help', '/help',
+            controller='ckanext.taijiang.controller:HelpController',
+            action='index')
+        return map
 
 def _get_module_functions(module, function_names):
     functions = {}

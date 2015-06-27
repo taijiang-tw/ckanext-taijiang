@@ -22,6 +22,7 @@ Prerequirements
 
   - `open-data/ckanext-scheming <https://github.com/open-data/ckanext-scheming>`_ - Easy, sharable custom CKAN schemas.
   - `open-data/ckanext-repeating <https://github.com/open-data/ckanext-repeating>`_ - Repeating fields for CKAN.
+  - `ckan/ckanext-pages <https://github.com/ckan/ckanext-pages>`_ - Simple CMS.
 
 
 Install

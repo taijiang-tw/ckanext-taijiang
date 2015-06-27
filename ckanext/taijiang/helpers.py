@@ -1,13 +1,9 @@
 import ckan.plugins as p
 from ckan.common import json
 from geomet import wkt
-import feedparser
 import re
 import dateutil
-from dateutil import tz
-from time import mktime
 from datetime import date
-from datetime import datetime
 
 
 def extras_to_dict(pkg):
@@ -20,20 +16,8 @@ def extras_to_dict(pkg):
 def geojson_to_wkt(value):
    return wkt.dumps(json.loads(value))
 
-def get_newsfeed(feed_url, truncate=3):
-   import socket
-   socket.setdefaulttimeout(2)
-   news_dict = []
-   rss_feed = feedparser.parse(feed_url)
-   for entry in rss_feed.entries:
-      updated_time = datetime.fromtimestamp(mktime(entry.updated_parsed))
-      updated_time = updated_time.replace(tzinfo=tz.tzutc())
-      updated_time = updated_time.astimezone(tz.tzlocal()).strftime('%Y-%m-%d')
-      news_dict.append({'title': entry.title,
-            'description': entry.description.replace('[&#8230;]', '...'),
-            'link': entry.link,
-            'updated_time': updated_time})
-   return news_dict[:truncate]
+def latest_news(truncate=2):
+   return p.toolkit.get_action('ckanext_pages_list')(None, {'private': False})[::-1][:truncate]
 
 def date_to_iso(value, temp_res=None):
    result = ''
@@ -53,16 +37,6 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
-      '''
-      if result[0].get('extras', []):
-         #For old schema definition
-         start_time = filter(lambda x: x['key'] == 'start_time',
-               result[0].get('extras', []))
-         begin = dateutil.parser.parse(start_time[0]['value']).isoformat().split('T')[0]
-      else:
-         start_time = result[0].get('start_time')
-         begin = dateutil.parser.parse(start_time).isoformat().split('T')[0]
-      '''
       start_time = result[0].get('start_time')
       begin = dateutil.parser.parse(start_time).isoformat().split('T')[0]
    else:
@@ -75,16 +49,6 @@ def get_default_slider_values():
    }
    result = p.toolkit.get_action('package_search')({}, data_dict)['results']
    if len(result) == 1:
-      '''
-      if result[0].get('extras', []):
-         #For old schema definition
-         end_time = filter(lambda x: x['key'] == 'end_time',
-               result[0].get('extras', []))
-         end = dateutil.parser.parse(end_time[0]['value']).isoformat().split('T')[0]
-      else:
-         end_time = result[0].get('end_time')
-         end = dateutil.parser.parse(end_time).isoformat().split('T')[0]
-      '''
       end_time = result[0].get('end_time')
       end = dateutil.parser.parse(end_time).isoformat().split('T')[0]
    else:

@@ -6,6 +6,10 @@ img#beta {
   z-index: 999;
 }
 
+.hero {
+  background: url("/promoted-image.jpg") repeat-x center center;
+}
+
 /* Additional info - used on both dataset and resource page */
 .additional-info thead {
   display: none;
