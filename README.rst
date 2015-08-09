@@ -9,7 +9,9 @@ Prerequirements
 ----------------
 
 - **Taijiang.tw CKAN.** The code powering the Taijiang.tw instance of CKAN.
+
   - `release-taijiang-tw <https://github.com/taijiang-tw/ckan>`_ - The main development branch used for the current taijiang.tw.
+
 - **Extensions.** We have developed several CKAN extensions. The `full list of installed extensions can be seen via the CKAN API <http://taijiang.tw/api/util/status>`_. Custom extensions include:
 
   - `taijiang-tw/ckanext-taijiang <https://github.com/taijiang-tw/ckanext-taijiang>`_ - Most taijiang.tw specific CKAN customizations are contained within this extension.
@@ -23,6 +25,8 @@ Prerequirements
   - `open-data/ckanext-scheming <https://github.com/open-data/ckanext-scheming>`_ - Easy, sharable custom CKAN schemas.
   - `open-data/ckanext-repeating <https://github.com/open-data/ckanext-repeating>`_ - Repeating fields for CKAN.
   - `ckan/ckanext-pages <https://github.com/ckan/ckanext-pages>`_ - Simple CMS.
+  - `datagovau/ckanext-ga-report <https://github.com/datagovau/ckanext-ga-report>`_ - Google analytics report for CKAN.
+  - `ckan/ckanext-googleanalytics <https://github.com/ckan/ckanext-googleanalytics>`_ - CKAN extension to integrate Google Analytics data into CKAN. Gives download stats on package pages, list of most popular packages, etc.
 
 
 Install
