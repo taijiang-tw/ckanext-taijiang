@@ -27,6 +27,11 @@ this.ckan.module('intro-action', function (jQuery, _) {
       var md = new MobileDetect(window.navigator.userAgent);
       var isMobile = md.mobile() ? true : false;
 
+      if(jQuery('html').attr('lang') == 'zh_TW') {
+        locale_data = ckan.i18n.options.locale_data.ckan;
+        jQuery.extend(locale_data, this.getLocale());
+      }
+
       intro.setOptions({
         overlayOpacity: 0.5,
         nextLabel: ' &rarr; ',
@@ -82,6 +87,39 @@ this.ckan.module('intro-action', function (jQuery, _) {
         localStorage.setItem('taijiang-dataset-intro', 1);
         intro.start();
       }
+    },
+
+    getLocale: function () {
+      return {
+        "Here you can search datasets by a keyword.": [
+          null,
+          "您可以在此進行關鍵字搜尋。"
+        ],
+        "Here you can search datasets by the map.": [
+          null,
+          "您可以在此進行空間搜尋。"
+        ],
+        "Here you can search datasets by a period of time.": [
+          null,
+          "您可以在此進行時間搜尋。"
+        ],
+        "Here you can filter datasets.": [
+          null,
+          "您可以在此過濾資料集。"
+        ],
+        "The matched datasets will list here.": [
+          null,
+          "符合搜尋條件的資料集將顯示在這裡。"
+        ],
+        "Click this question mark to show this help again.": [
+          null,
+          "點選此問號按鈕再次觀看導覽。"
+        ],
+        "Skip": [
+          null,
+          "略過"
+        ]
+      };
     },
 
     createMark: function () {
