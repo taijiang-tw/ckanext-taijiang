@@ -26,8 +26,8 @@
         if (defaultValues.min === '' && defaultValues.max === '') {
           defaultValues.min = this._getDate(this.options.begin);
           defaultValues.max = this._getDate(this.options.end);
-          $('[id="ext_begin_date"]').val(this.options.begin);
-	  $('[id="ext_end_date"]').val(this.options.end);
+	  $('[id="ext_begin_date"]').removeAttr('value');
+	  $('[id="ext_end_date"]').removeAttr('value');
         }
 
         $('<div id="dateSlider" />')

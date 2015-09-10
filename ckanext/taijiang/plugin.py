@@ -48,12 +48,16 @@ class TaijiangDatasets(p.SingletonPlugin):
             except ValueError:
                 return search_params
             # Adding 'Z' manually here is evil, but we do this in core too.
-            query = ("(start_time: [* TO {0}Z] AND "
+            query = ("((start_time: [* TO {0}Z] AND "
                      "end_time: [{0}Z TO *]) OR "
                      "(start_time: [{0}Z TO {1}Z] AND "
-                     "end_time: [{0}Z TO *])")
+                     "end_time: [{0}Z TO *]))")
             query = query.format(begin.isoformat(), end.isoformat())
-            search_params['q'] = query
+
+            q = search_params.get('q', '').strip() or '""'
+            new_q = '%s AND %s' % (q if q else '', query)
+
+            search_params['q'] = new_q
 
         return search_params
 
