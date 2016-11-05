@@ -1,7 +1,6 @@
-// add a MapQuest tile layer
-var mq = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
-  attribution: 'Map data &copy; OpenStreetMap contributors, Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="//developer.mapquest.com/content/osm/mq_logo.png">',
-  subdomains: '1234'
+// add a Thunderforest tile layer
+var tf = L.tileLayer('https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', {
+  attribution: 'Maps &copy; <a href="http://www.thunderforest.com">Thunderforest</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 });
 // add a Google Maps tile layer
 var ggl = new L.Google('ROADMAP');
@@ -15,10 +14,10 @@ var map = L.map('map', {
 var nlsc = L.tileLayer('http://maps.nlsc.gov.tw/S_Maps/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=EMAP&STYLE=_null&TILEMATRIXSET=EPSG:3857&TILEMATRIX=EPSG:3857:{z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png', {
   attribution: '內政部國土測繪中心'
 });
-// add MapQuest (default tile layer)
-map.addLayer(mq);
+// add Thunderforest (default tile layer)
+map.addLayer(tf);
 // add layer control
-map.addControl(new L.control.layers({"MapQuest": mq, "Google Maps": ggl, "Google Maps (衛星)": ggls, "通用版電子地圖": nlsc}));
+map.addControl(new L.control.layers({"OpenStreetMap": tf, "Google Maps": ggl, "Google Maps (衛星)": ggls, "通用版電子地圖": nlsc}));
 
 featureGroup = L.featureGroup().addTo(map);
 
