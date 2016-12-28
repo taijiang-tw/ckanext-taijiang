@@ -42,11 +42,12 @@ With your virtualenv activated:
    python setup.py develop
    pip install -r requirements.txt
 
-Add the following plugin to your CKAN ini file:
+Add the following plugin and the Google Maps API key to your CKAN ini file:
 
 ::
 
    ckan.plugins = ... taijiang_datasets
+   ckanext.taijiang.gmap.api_key = YOUR_GOOGLE_MAPS_API_KEY
 
 Then restart your server.
 

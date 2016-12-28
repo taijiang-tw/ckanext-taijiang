@@ -55,11 +55,12 @@
     {% elif field.field_name == 'loc_keyword' %}
       <legend><h2> {{ _('Spatial Fields') }} </h2></legend>
     {% elif field.field_name == 'language' %}
+      {% set gmap_config = h.get_gmap_config() %}
       <div class="control-group control-medium">
         <div class="controls">
           <button id='convert_from_four_range' class='btn btn-primary' type='button'>{{_('Convert from Parcel Corner')}}</button>
           <button id='show_map' class='btn btn-primary' type='button'>{{_('Using a Map')}}</button>
-          <div id='map'></div>
+	  <div data-module='map' id='map' data-module-gmap_config='{{ h.dump_json(gmap_config) }}'></div>
         </div>
       </div>
       <legend><h2> {{_('Miscellaneous') }} </h2></legend>

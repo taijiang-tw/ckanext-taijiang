@@ -138,6 +138,7 @@ class TaijiangDatasets(p.SingletonPlugin):
             'get_field_choices',
             'get_time_period',
             'string_to_list',
+            'get_gmap_config'
         )
         return _get_module_functions(helpers, function_names)
 

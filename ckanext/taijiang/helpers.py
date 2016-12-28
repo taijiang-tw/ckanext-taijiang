@@ -1,9 +1,13 @@
+from pylons import config
 import ckan.plugins as p
 from ckan.common import json
 from geomet import wkt
 import re
+import logging
 import dateutil
 from datetime import date
+
+log = logging.getLogger(__name__)
 
 
 def extras_to_dict(pkg):
@@ -93,3 +97,20 @@ def string_to_list(value):
    if isinstance(value, list):
       return value
    return [value]
+
+def get_gmap_config():
+    '''
+        Returns a dict with all configuration options related to the
+        Google Maps API (ie those starting with 'ckanext.taijiang.gmap')
+    '''
+    namespace = 'ckanext.taijiang.gmap.'
+
+    gmap_configs = dict([(k.replace(namespace, ''), v) for k, v in config.iteritems()
+            if k.startswith(namespace)])
+
+    if not gmap_configs.get('api_key'):
+        log.critical('''Please specify a ckanext.taijiang.gmap.api_key
+                     in your config for the Google Maps layer''')
+
+    return dict([(k.replace(namespace, ''), v) for k, v in config.iteritems()
+                 if k.startswith(namespace)])
