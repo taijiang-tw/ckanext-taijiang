@@ -28,6 +28,11 @@ Prerequirements
   - `datagovau/ckanext-ga-report <https://github.com/datagovau/ckanext-ga-report>`_ - Google analytics report for CKAN.
   - `ckan/ckanext-googleanalytics <https://github.com/ckan/ckanext-googleanalytics>`_ - CKAN extension to integrate Google Analytics data into CKAN. Gives download stats on package pages, list of most popular packages, etc.
 
+- **Libraries for Apache Solr.** Download them to ``YOUR_SOLR_FOLDER/server/solr-webapp/webapp/WEB-INF/lib``.
+
+  - `JTS Topology Suite <https://sourceforge.net/projects/jts-topo-suite/files/jts/1.13/jts-1.13.zip/download>`_ - For geospatial search.
+  - `mmseg4j-solr <http://pan.baidu.com/s/1dD7qMFf>`_ - For Chinese search.
+
 
 Install
 --------
