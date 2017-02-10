@@ -1,2 +1,3 @@
 python-dateutil
+ckanext-pdfview
 git+git://github.com/geomet/geomet.git
