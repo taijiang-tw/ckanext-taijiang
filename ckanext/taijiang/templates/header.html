@@ -1,5 +1,12 @@
 {% ckan_extends %}
 
+{% block header_account %}
+  <div class="alert">
+    <strong>{{ _('Notice: ') }}</strong>
+    {{ _('All datasets in this website are moved to https://data.depositar.io. No more updates in this website.') }}
+  </div>
+{% endblock %}
+
 {% block header_site_navigation %}
   <nav class="section navigation">
     <ul class="nav nav-pills">
